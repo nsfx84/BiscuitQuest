@@ -532,118 +532,229 @@ function SkyBackground({ phase, progress }) {
 
 // ─── DATA ──────────────────────────────────────────
 
-// Evolution tree: Stage 0→1→2 are linear, then at stage 3 you CHOOSE path A or B
-// Each path then has its own stage 4 (Legendary)
-// Stage: 0=Baby, 1=Teen, 2=Adult, 3=Elder(A or B), 4=Legendary(A or B)
+// Evolution tree: 10 stages total with splits at stages 4 and 7
+// 0=Egg, 1=Baby, 2=Juvenile, 3=Teen, 4=Split1(A/B), 5=Adult(A/B), 
+// 6=Elder(A/B), 7=Split2(A1/A2 or B1/B2), 8=Champion, 9=Mythic
 const CREATURE_STAGES = {
   water: {
     stages: [
+      { name: "Droplet", emoji: "💧", saying: "Drip drip!" },
       { name: "Bubbles", emoji: "🐙", saying: "Blub blub! I need water biscuits!" },
+      { name: "Splasher", emoji: "🐟", saying: "I'm getting stronger!" },
       { name: "Tideswirl", emoji: "🐋", saying: "The ocean flows through me!" },
-      { name: "Leviathan", emoji: "🌊", saying: "I command the tides!" },
     ],
-    pathA: [
-      { name: "Abyssal King", emoji: "🔱", saying: "The deep obeys my will!", desc: "Deep Sea Path — raw crushing power" },
-      { name: "Poseidon", emoji: "🗡️", saying: "ALL OCEANS ARE MINE! 👑🌊", desc: "God of the Sea" },
-    ],
-    pathB: [
-      { name: "Coral Guardian", emoji: "🐚", saying: "I protect all sea life!", desc: "Reef Path — healing & defence" },
-      { name: "Ocean Spirit", emoji: "🧜", saying: "The sea sings through me! ✨🌊", desc: "Spirit of the Deep" },
-    ],
+    pathA: { 
+      name: "Deep Sea", desc: "Power of the crushing depths", color: "#0D47A1",
+      stages: [
+        { name: "Leviathan", emoji: "🌊", saying: "I command the tides!" },
+        { name: "Abyssal King", emoji: "🔱", saying: "The deep obeys my will!" },
+        { name: "Trench Lord", emoji: "🦑", saying: "Darkness is my domain!" },
+      ],
+      subA: { name: "Destroyer", desc: "Unstoppable tsunami force",
+        stages: [{ name: "Poseidon", emoji: "🗡️", saying: "Oceans tremble at my name!" }, { name: "Worldflood", emoji: "🌏", saying: "I drown WORLDS! 🌊👑" }] },
+      subB: { name: "Kraken", desc: "Tentacled horror from below",
+        stages: [{ name: "Kraken Prime", emoji: "🐙", saying: "My tentacles reach everywhere!" }, { name: "Cthulhu", emoji: "👁️", saying: "Madness incarnate! 🌀👁️" }] },
+    },
+    pathB: {
+      name: "Coral Reef", desc: "Guardian of sea life", color: "#00897B",
+      stages: [
+        { name: "Coral Guardian", emoji: "🐚", saying: "I protect all sea life!" },
+        { name: "Reef Warden", emoji: "🐠", saying: "The reef thrives under my watch!" },
+        { name: "Ocean Sage", emoji: "🧜", saying: "The sea whispers wisdom!" },
+      ],
+      subA: { name: "Healer", desc: "Restorative ocean magic",
+        stages: [{ name: "Tide Priestess", emoji: "🌺", saying: "My waters heal all wounds!" }, { name: "Ocean Spirit", emoji: "✨", saying: "Pure life flows through me! 💙✨" }] },
+      subB: { name: "Siren", desc: "Enchanting voice of the deep",
+        stages: [{ name: "Siren Queen", emoji: "🎵", saying: "My song controls the seas!" }, { name: "Harmonia", emoji: "🎶", saying: "All oceans sing MY melody! 🎵👑" }] },
+    },
   },
   fire: {
     stages: [
+      { name: "Ember", emoji: "🕯️", saying: "I'm just a tiny flame..." },
       { name: "Sparky", emoji: "🐉", saying: "Roar! Feed me fire biscuits!" },
+      { name: "Flamecub", emoji: "🦊", saying: "My fire is growing!" },
       { name: "Blazeclaw", emoji: "🔥", saying: "My flames grow stronger!" },
-      { name: "Inferno", emoji: "☀️", saying: "Nothing can withstand my fire!" },
     ],
-    pathA: [
-      { name: "Volcanic Titan", emoji: "🌋", saying: "I erupt with unstoppable fury!", desc: "Eruption Path — explosive attacks" },
-      { name: "Eternal Flame", emoji: "💥", saying: "I burn forever! Nothing escapes! 👑🔥", desc: "The Undying Flame" },
-    ],
-    pathB: [
-      { name: "Phoenix Sage", emoji: "🦅", saying: "From ashes I rise, again and again!", desc: "Rebirth Path — resurrect & heal" },
-      { name: "Solar Dragon", emoji: "🐲", saying: "The sun itself bows to me! ✨☀️", desc: "Dragon of the Sun" },
-    ],
+    pathA: {
+      name: "Eruption", desc: "Explosive volcanic fury", color: "#BF360C",
+      stages: [
+        { name: "Inferno", emoji: "☀️", saying: "Nothing can withstand my fire!" },
+        { name: "Volcanic Titan", emoji: "🌋", saying: "I erupt with unstoppable fury!" },
+        { name: "Magma Overlord", emoji: "🗻", saying: "Molten earth bends to me!" },
+      ],
+      subA: { name: "Supernova", desc: "Star-destroying explosions",
+        stages: [{ name: "Eternal Flame", emoji: "💥", saying: "I burn brighter than stars!" }, { name: "Big Bang", emoji: "🌟", saying: "I CREATE and DESTROY universes! 🔥💥" }] },
+      subB: { name: "Hellfire", desc: "Cursed demonic flames",
+        stages: [{ name: "Demon King", emoji: "😈", saying: "Hellfire consumes all!" }, { name: "Infernal God", emoji: "👹", saying: "Even gods fear MY flames! 🔥👑" }] },
+    },
+    pathB: {
+      name: "Phoenix", desc: "Rebirth through flame", color: "#FF6D00",
+      stages: [
+        { name: "Phoenix Sage", emoji: "🦅", saying: "From ashes I rise!" },
+        { name: "Sunbird", emoji: "🌅", saying: "I carry the dawn!" },
+        { name: "Solar Phoenix", emoji: "☀️", saying: "My light never fades!" },
+      ],
+      subA: { name: "Solar", desc: "Power of the sun itself",
+        stages: [{ name: "Solar Dragon", emoji: "🐲", saying: "The sun bows to me!" }, { name: "Star Forge", emoji: "⭐", saying: "I FORGE new stars! ☀️✨" }] },
+      subB: { name: "Eternal", desc: "Immortal and undying",
+        stages: [{ name: "Immortal Flame", emoji: "🕊️", saying: "I can never truly die!" }, { name: "Nirvana", emoji: "🔆", saying: "Beyond life and death! 🕊️✨" }] },
+    },
   },
   forest: {
     stages: [
+      { name: "Seedling", emoji: "🌱", saying: "I just sprouted!" },
       { name: "Mossy", emoji: "🦎", saying: "Hehe! I love forest biscuits!" },
+      { name: "Fernback", emoji: "🐸", saying: "The forest is my home!" },
       { name: "Thornvine", emoji: "🌿", saying: "The forest speaks to me!" },
-      { name: "Ancient Treant", emoji: "🌳", saying: "I am one with nature!" },
     ],
-    pathA: [
-      { name: "Jungle Wrath", emoji: "🦖", saying: "The wild hunts as one!", desc: "Beast Path — savage speed & strength" },
-      { name: "Primal Rex", emoji: "🐊", saying: "I am the apex predator! 👑🌿", desc: "King of the Jungle" },
-    ],
-    pathB: [
-      { name: "Bloom Mother", emoji: "🌸", saying: "All things grow under my care!", desc: "Bloom Path — growth & regeneration" },
-      { name: "World Tree", emoji: "🌍", saying: "My roots hold the world together! ✨🌳", desc: "The Living World" },
-    ],
+    pathA: {
+      name: "Beast", desc: "Primal savage power", color: "#33691E",
+      stages: [
+        { name: "Ancient Treant", emoji: "🌳", saying: "I am one with nature!" },
+        { name: "Jungle Wrath", emoji: "🦖", saying: "The wild hunts as one!" },
+        { name: "Forest Titan", emoji: "🦕", saying: "The jungle obeys ME!" },
+      ],
+      subA: { name: "Predator", desc: "Apex predator of all",
+        stages: [{ name: "Primal Rex", emoji: "🐊", saying: "I am the apex predator!" }, { name: "Nature's Fury", emoji: "🦁", saying: "ALL creatures bow to me! 🌿👑" }] },
+      subB: { name: "Swarm", desc: "Command armies of creatures",
+        stages: [{ name: "Hive Mind", emoji: "🐝", saying: "My swarm is infinite!" }, { name: "Gaia's Army", emoji: "🌍", saying: "Every living thing fights for me! 🌿⚔️" }] },
+    },
+    pathB: {
+      name: "Bloom", desc: "Growth and restoration", color: "#66BB6A",
+      stages: [
+        { name: "Bloom Mother", emoji: "🌸", saying: "All things grow under my care!" },
+        { name: "Garden Keeper", emoji: "🌻", saying: "My garden spans continents!" },
+        { name: "Life Weaver", emoji: "🌺", saying: "I weave life itself!" },
+      ],
+      subA: { name: "World Tree", desc: "Root system connecting all life",
+        stages: [{ name: "Yggdrasil", emoji: "🌳", saying: "My roots hold the world!" }, { name: "World Seed", emoji: "🌍", saying: "I birth entire WORLDS! 🌱✨" }] },
+      subB: { name: "Fairy", desc: "Magical enchanted nature",
+        stages: [{ name: "Fairy Queen", emoji: "🧚", saying: "Magic blooms where I walk!" }, { name: "Enchantress", emoji: "💚", saying: "Reality bends to my will! ✨🧚" }] },
+    },
   },
   sky: {
     stages: [
+      { name: "Puff", emoji: "☁️", saying: "I'm just a little cloud!" },
       { name: "Breeze", emoji: "🦅", saying: "Wheee! Sky biscuits please!" },
+      { name: "Gustwing", emoji: "🕊️", saying: "The wind carries me higher!" },
       { name: "Stormwing", emoji: "🌪️", saying: "I ride the lightning!" },
-      { name: "Sky Titan", emoji: "⚡", saying: "The heavens bow to me!" },
     ],
-    pathA: [
-      { name: "Thunder Emperor", emoji: "🌩️", saying: "My storm devours everything!", desc: "Storm Path — lightning devastation" },
-      { name: "Tempest God", emoji: "🌀", saying: "I AM the hurricane! 👑⚡", desc: "Lord of all Storms" },
-    ],
-    pathB: [
-      { name: "Cloud Dancer", emoji: "🌈", saying: "I weave rainbows in the sky!", desc: "Wind Path — speed & evasion" },
-      { name: "Astral Phoenix", emoji: "✨", saying: "I soar between the stars! 🌟💫", desc: "Beyond the Sky" },
-    ],
+    pathA: {
+      name: "Storm", desc: "Lightning devastation", color: "#4A148C",
+      stages: [
+        { name: "Sky Titan", emoji: "⚡", saying: "The heavens bow to me!" },
+        { name: "Thunder Emperor", emoji: "🌩️", saying: "My storm devours everything!" },
+        { name: "Hurricane Lord", emoji: "🌀", saying: "I AM the hurricane!" },
+      ],
+      subA: { name: "Apocalypse", desc: "World-ending storms",
+        stages: [{ name: "Tempest God", emoji: "⛈️", saying: "My storms reshape continents!" }, { name: "Armageddon", emoji: "🌪️", saying: "THE SKY FALLS! ⚡👑" }] },
+      subB: { name: "Lightning", desc: "Pure electric speed",
+        stages: [{ name: "Volt Phantom", emoji: "⚡", saying: "I move at light speed!" }, { name: "Thunder Incarnate", emoji: "🔌", saying: "I AM electricity itself! ⚡✨" }] },
+    },
+    pathB: {
+      name: "Wind", desc: "Speed and evasion", color: "#42A5F5",
+      stages: [
+        { name: "Cloud Dancer", emoji: "🌈", saying: "I weave rainbows in the sky!" },
+        { name: "Sky Shepherd", emoji: "🦋", saying: "The winds sing for me!" },
+        { name: "Zephyr Lord", emoji: "🍃", saying: "I am the gentle breeze and the gale!" },
+      ],
+      subA: { name: "Astral", desc: "Beyond the sky into space",
+        stages: [{ name: "Astral Phoenix", emoji: "✨", saying: "I soar between the stars!" }, { name: "Cosmic Wind", emoji: "🌌", saying: "I drift between GALAXIES! 🌟💫" }] },
+      subB: { name: "Rainbow", desc: "Light and colour magic",
+        stages: [{ name: "Prism Dragon", emoji: "🐉", saying: "Light fractures at my command!" }, { name: "Aurora", emoji: "🌈", saying: "I paint the sky forever! 🌈✨" }] },
+    },
   },
   star: {
     stages: [
+      { name: "Spark", emoji: "✨", saying: "I'm a tiny sparkle!" },
       { name: "Twinkle", emoji: "🦄", saying: "✨ Star biscuits make me glow!" },
-      { name: "Celestia", emoji: "🌙", saying: "The stars guide my path!" },
-      { name: "Galaxy Lord", emoji: "🌌", saying: "I hold the cosmos!" },
+      { name: "Moonbeam", emoji: "🌙", saying: "The night sky is my playground!" },
+      { name: "Celestia", emoji: "🌟", saying: "The stars guide my path!" },
     ],
-    pathA: [
-      { name: "Void Walker", emoji: "🕳️", saying: "I bend space and time!", desc: "Void Path — cosmic destruction" },
-      { name: "Universe Breaker", emoji: "💫", saying: "Reality shatters at my touch! 👑🌌", desc: "Destroyer of Worlds" },
-    ],
-    pathB: [
-      { name: "Starweaver", emoji: "🌟", saying: "I create new constellations!", desc: "Light Path — creation & wishes" },
-      { name: "Cosmic Angel", emoji: "👼", saying: "I grant wishes across galaxies! ✨🌠", desc: "Guardian of Dreams" },
-    ],
+    pathA: {
+      name: "Void", desc: "Dark cosmic destruction", color: "#1A237E",
+      stages: [
+        { name: "Galaxy Lord", emoji: "🌌", saying: "I hold the cosmos!" },
+        { name: "Void Walker", emoji: "🕳️", saying: "I bend space and time!" },
+        { name: "Dark Star", emoji: "⚫", saying: "Light cannot escape me!" },
+      ],
+      subA: { name: "Black Hole", desc: "Infinite gravitational pull",
+        stages: [{ name: "Universe Breaker", emoji: "💫", saying: "Reality shatters at my touch!" }, { name: "The Singularity", emoji: "⚫", saying: "I AM the end of everything! 🌌👑" }] },
+      subB: { name: "Dimension", desc: "Travel between realities",
+        stages: [{ name: "Reality Shifter", emoji: "🔮", saying: "I walk between dimensions!" }, { name: "Multiverse Lord", emoji: "🌀", saying: "INFINITE realities obey me! 🔮✨" }] },
+    },
+    pathB: {
+      name: "Light", desc: "Creation and wishes", color: "#FFD54F",
+      stages: [
+        { name: "Starweaver", emoji: "🌟", saying: "I create new constellations!" },
+        { name: "Wish Granter", emoji: "💫", saying: "Your wishes are my command!" },
+        { name: "Celestial Being", emoji: "👼", saying: "I exist beyond mortal understanding!" },
+      ],
+      subA: { name: "Angel", desc: "Divine guardian of light",
+        stages: [{ name: "Cosmic Angel", emoji: "👼", saying: "I guard all of creation!" }, { name: "God of Light", emoji: "☀️", saying: "Eternal light shines through me! ✨👑" }] },
+      subB: { name: "Dream", desc: "Master of dreams and wishes",
+        stages: [{ name: "Dream Weaver", emoji: "🌙", saying: "I shape the dreams of billions!" }, { name: "Imagination", emoji: "🎆", saying: "I make ANYTHING real! 💭✨" }] },
+    },
   },
   ice: {
     stages: [
+      { name: "Snowflake", emoji: "❄️", saying: "I'm so tiny and cold!" },
       { name: "Frosty", emoji: "🐧", saying: "Brrr! Ice biscuits are yummy!" },
+      { name: "Icicle", emoji: "🦭", saying: "Getting frostier!" },
       { name: "Glacius", emoji: "🧊", saying: "Winter is my kingdom!" },
-      { name: "Blizzard Beast", emoji: "❄️", saying: "An eternal winter follows me!" },
     ],
-    pathA: [
-      { name: "Frost Tyrant", emoji: "🥶", saying: "I freeze entire kingdoms!", desc: "Freeze Path — absolute zero power" },
-      { name: "Ice Apocalypse", emoji: "🏔️", saying: "A new ice age begins NOW! 👑❄️", desc: "The Endless Winter" },
-    ],
-    pathB: [
-      { name: "Crystal Sage", emoji: "💎", saying: "My ice is beautiful and eternal!", desc: "Crystal Path — shields & beauty" },
-      { name: "Diamond Empress", emoji: "👑", saying: "I am the most beautiful force! ✨💎", desc: "Jewel of the Frozen Realm" },
-    ],
+    pathA: {
+      name: "Freeze", desc: "Absolute zero power", color: "#006064",
+      stages: [
+        { name: "Blizzard Beast", emoji: "❄️", saying: "An eternal winter follows me!" },
+        { name: "Frost Tyrant", emoji: "🥶", saying: "I freeze entire kingdoms!" },
+        { name: "Permafrost Lord", emoji: "🏔️", saying: "Nothing thaws in my presence!" },
+      ],
+      subA: { name: "Ice Age", desc: "World-freezing devastation",
+        stages: [{ name: "Ice Apocalypse", emoji: "🌨️", saying: "A new ice age begins NOW!" }, { name: "Absolute Zero", emoji: "🌡️", saying: "ALL motion STOPS! ❄️👑" }] },
+      subB: { name: "Glacier", desc: "Unstoppable frozen mountain",
+        stages: [{ name: "Glacier Titan", emoji: "🗻", saying: "I am an unstoppable frozen mountain!" }, { name: "Continental Freeze", emoji: "🌍", saying: "Entire continents freeze solid! ❄️🌍" }] },
+    },
+    pathB: {
+      name: "Crystal", desc: "Beautiful ice artistry", color: "#80DEEA",
+      stages: [
+        { name: "Crystal Sage", emoji: "💎", saying: "My ice is beautiful and eternal!" },
+        { name: "Prism Keeper", emoji: "💠", saying: "Light dances in my crystals!" },
+        { name: "Ice Artist", emoji: "🎨", saying: "I sculpt worlds from ice!" },
+      ],
+      subA: { name: "Diamond", desc: "Indestructible diamond form",
+        stages: [{ name: "Diamond Empress", emoji: "👑", saying: "I am the most beautiful force!" }, { name: "Eternal Diamond", emoji: "💎", saying: "Unbreakable, eternal, perfect! 💎✨" }] },
+      subB: { name: "Aurora", desc: "Northern lights magic",
+        stages: [{ name: "Aurora Walker", emoji: "🌌", saying: "The northern lights dance for me!" }, { name: "Borealis", emoji: "🌈", saying: "I AM the aurora! Light and ice forever! ❄️🌈" }] },
+    },
   },
 };
 
-const HEARTS_PER_STAGE = 5;
-const MAX_STAGE = 4; // 0,1,2,3,4
+const HEARTS_PER_STAGE = 4;
+const MAX_STAGE = 9;
 
 function getCreatureStage(fc) {
-  const stage = Math.floor(fc / HEARTS_PER_STAGE);
-  return Math.min(stage, MAX_STAGE);
+  return Math.min(Math.floor(fc / HEARTS_PER_STAGE), MAX_STAGE);
 }
 
 function getCreatureData(type, fc, path) {
   const tree = CREATURE_STAGES[type];
   const stage = getCreatureStage(fc);
-  if (stage <= 2) return { ...tree.stages[stage], stage };
-  // Stage 3 or 4 — need path choice
-  const branch = path === "B" ? tree.pathB : tree.pathA;
-  const branchIdx = stage - 3; // 0 or 1
-  return { ...branch[Math.min(branchIdx, 1)], stage };
+  // Stages 0-3: linear
+  if (stage <= 3) return { ...tree.stages[stage], stage };
+  // Need a path choice for stage 4+
+  const mainPath = path?.startsWith("A") ? "A" : path?.startsWith("B") ? "B" : null;
+  if (!mainPath) return { ...tree.stages[3], stage: 3 }; // no path chosen yet, show last linear
+  const branch = mainPath === "A" ? tree.pathA : tree.pathB;
+  // Stages 4-6: main branch
+  if (stage <= 6) return { ...branch.stages[stage - 4], stage };
+  // Need sub-path for stage 7+
+  const subPath = path?.length >= 2 ? path[1] : null;
+  if (!subPath) return { ...branch.stages[2], stage: 6 }; // no sub-path yet
+  const sub = subPath === "1" ? branch.subA : branch.subB;
+  // Stages 7-9: sub branch (0,1 indices, stage 9 = index 1)
+  const subIdx = Math.min(stage - 7, 1);
+  return { ...sub.stages[subIdx], stage };
 }
 
 function getHeartsInCurrentStage(fc) {
@@ -653,9 +764,11 @@ function getHeartsInCurrentStage(fc) {
 
 function isMaxEvolution(fc) { return fc >= HEARTS_PER_STAGE * (MAX_STAGE + 1); }
 
-function needsPathChoice(fc) { return getCreatureStage(fc) === 2 && getHeartsInCurrentStage(fc) >= HEARTS_PER_STAGE - 1; }
+// Split at stage 3→4 (first split) and stage 6→7 (second split)
+function needsFirstSplit(fc, path) { return getCreatureStage(fc) === 3 && getHeartsInCurrentStage(fc) >= HEARTS_PER_STAGE - 1 && !path; }
+function needsSecondSplit(fc, path) { return getCreatureStage(fc) === 6 && getHeartsInCurrentStage(fc) >= HEARTS_PER_STAGE - 1 && path?.length === 1; }
 
-const STAGE_NAMES = ["Baby", "Teen", "Adult", "Elder", "Legendary"];
+const STAGE_NAMES = ["Egg", "Baby", "Juvenile", "Teen", "Warrior", "Adult", "Elder", "Champion", "Legend", "MYTHIC"];
 
 const CREATURES = [
   { id: "water", type: "water", color: "#4FC3F7", bg: "#E1F5FE", needs: "water" },
@@ -808,19 +921,60 @@ const LOCATIONS = [
   { id: "desert", name: "Golden Dunes", emoji: "🏜️", bg: "linear-gradient(135deg, #E9C46A, #F4A261, #E76F51)", biscuits: ["fire", "forest"], description: "Sand dunes shimmer in the heat...", enemies: ["sandBandit", "scorpion"], boss: "sandWyrm" },
 ];
 
+// Rarity: common(easy), uncommon(medium), rare(hard), ultraRare(nightmare)
+// commons spawn normally. After 10 commons → 1 uncommon. After 6 uncommons → 1 rare. After 3 rares → 1 ultra rare boss.
+const RARITY_COLORS = { common: "#9E9E9E", uncommon: "#4CAF50", rare: "#2196F3", ultraRare: "#FF6F00" };
+const RARITY_LABELS = { common: "Common", uncommon: "Uncommon", rare: "Rare", ultraRare: "ULTRA RARE" };
+const RARITY_GLOW = { common: "none", uncommon: "0 0 10px rgba(76,175,80,0.4)", rare: "0 0 15px rgba(33,150,243,0.5)", ultraRare: "0 0 25px rgba(255,111,0,0.7)" };
+
 const ENEMIES = {
-  crab: { name: "Snappy Crab", emoji: "🦀", hp: 3, color: "#E53935", taunt: "I'll pinch your biscuits!", steal: 1 },
-  shark: { name: "Biscuit Shark", emoji: "🦈", hp: 5, color: "#455A64", taunt: "Those biscuits are MINE!", steal: 2 },
-  lavaSlime: { name: "Lava Slime", emoji: "🔥", hp: 4, color: "#FF6F00", taunt: "Sizzle! Give me those!", steal: 1 },
-  fireImp: { name: "Fire Imp", emoji: "👹", hp: 4, color: "#BF360C", taunt: "Hehehe! Biscuit time!", steal: 2 },
-  goblin: { name: "Sneaky Goblin", emoji: "👺", hp: 3, color: "#558B2F", taunt: "Yoink! My biscuits now!", steal: 1 },
-  troll: { name: "Grumpy Troll", emoji: "🧌", hp: 6, color: "#5D4037", taunt: "TROLL HUNGRY!", steal: 3 },
-  stormSprite: { name: "Storm Sprite", emoji: "⚡", hp: 3, color: "#7C4DFF", taunt: "Zap!", steal: 1 },
-  skyBandit: { name: "Sky Bandit", emoji: "🦇", hp: 4, color: "#4A148C", taunt: "Swooping in!", steal: 2 },
-  frostWolf: { name: "Frost Wolf", emoji: "🐺", hp: 5, color: "#0277BD", taunt: "Awoo! Biscuits!", steal: 2 },
-  snowGremlin: { name: "Snow Gremlin", emoji: "☃️", hp: 3, color: "#4DD0E1", taunt: "Cold biscuits!", steal: 1 },
-  sandBandit: { name: "Sand Bandit", emoji: "🏴‍☠️", hp: 4, color: "#A1887F", taunt: "Hand them over!", steal: 2 },
-  scorpion: { name: "Giant Scorpion", emoji: "🦂", hp: 5, color: "#E65100", taunt: "Click click!", steal: 2 },
+  // ── COMMONS (easy: 3-4 HP, weak) ──
+  crab: { name: "Snappy Crab", emoji: "🦀", hp: 3, color: "#E53935", taunt: "I'll pinch your biscuits!", steal: 1, rarity: "common" },
+  shark: { name: "Biscuit Shark", emoji: "🦈", hp: 4, color: "#455A64", taunt: "Those biscuits are MINE!", steal: 1, rarity: "common" },
+  lavaSlime: { name: "Lava Slime", emoji: "🔥", hp: 3, color: "#FF6F00", taunt: "Sizzle! Give me those!", steal: 1, rarity: "common" },
+  fireImp: { name: "Fire Imp", emoji: "👹", hp: 4, color: "#BF360C", taunt: "Hehehe! Biscuit time!", steal: 1, rarity: "common" },
+  goblin: { name: "Sneaky Goblin", emoji: "👺", hp: 3, color: "#558B2F", taunt: "Yoink! My biscuits now!", steal: 1, rarity: "common" },
+  troll: { name: "Grumpy Troll", emoji: "🧌", hp: 4, color: "#5D4037", taunt: "TROLL HUNGRY!", steal: 1, rarity: "common" },
+  stormSprite: { name: "Storm Sprite", emoji: "⚡", hp: 3, color: "#7C4DFF", taunt: "Zap!", steal: 1, rarity: "common" },
+  skyBandit: { name: "Sky Bandit", emoji: "🦇", hp: 4, color: "#4A148C", taunt: "Swooping in!", steal: 1, rarity: "common" },
+  frostWolf: { name: "Frost Wolf", emoji: "🐺", hp: 4, color: "#0277BD", taunt: "Awoo! Biscuits!", steal: 1, rarity: "common" },
+  snowGremlin: { name: "Snow Gremlin", emoji: "☃️", hp: 3, color: "#4DD0E1", taunt: "Cold biscuits!", steal: 1, rarity: "common" },
+  sandBandit: { name: "Sand Bandit", emoji: "🏴‍☠️", hp: 4, color: "#A1887F", taunt: "Hand them over!", steal: 1, rarity: "common" },
+  scorpion: { name: "Giant Scorpion", emoji: "🦂", hp: 4, color: "#E65100", taunt: "Click click!", steal: 1, rarity: "common" },
+
+  // ── UNCOMMONS (medium: 7-9 HP, stronger, faster attacks) ──
+  anchorCrab: { name: "Anchor Crab", emoji: "⚓", hp: 8, color: "#1565C0", taunt: "I'll drag you under!", steal: 2, rarity: "uncommon", attackSpeed: 2200 },
+  magmaGolem: { name: "Magma Golem", emoji: "🗿", hp: 9, color: "#D84315", taunt: "MOLTEN FISTS!", steal: 2, rarity: "uncommon", attackSpeed: 2400 },
+  shadowElf: { name: "Shadow Elf", emoji: "🧝‍♂️", hp: 7, color: "#1B5E20", taunt: "The shadows serve me!", steal: 2, rarity: "uncommon", attackSpeed: 1800 },
+  thunderHawk: { name: "Thunder Hawk", emoji: "🦅", hp: 7, color: "#311B92", taunt: "Lightning strikes twice!", steal: 2, rarity: "uncommon", attackSpeed: 1900 },
+  iceWraith: { name: "Ice Wraith", emoji: "👻", hp: 8, color: "#00ACC1", taunt: "Your warmth is MINE!", steal: 2, rarity: "uncommon", attackSpeed: 2000 },
+  sandGolem: { name: "Sand Golem", emoji: "🏺", hp: 9, color: "#795548", taunt: "Crumble before me!", steal: 2, rarity: "uncommon", attackSpeed: 2300 },
+
+  // ── RARES (hard: 14-18 HP, hit hard, fast) ──
+  seaSerpent: { name: "Sea Serpent", emoji: "🐍", hp: 16, color: "#0D47A1", taunt: "The deep HUNGERS!", steal: 3, rarity: "rare", attackSpeed: 1600 },
+  infernoWyrm: { name: "Inferno Wyrm", emoji: "🐲", hp: 18, color: "#B71C1C", taunt: "BURN TO ASHES!", steal: 3, rarity: "rare", attackSpeed: 1500 },
+  treantLord: { name: "Treant Lord", emoji: "🌲", hp: 15, color: "#33691E", taunt: "Nature's wrath is ENDLESS!", steal: 3, rarity: "rare", attackSpeed: 1800 },
+  stormDragon: { name: "Storm Dragon", emoji: "🐉", hp: 17, color: "#4A148C", taunt: "KNEEL before the storm!", steal: 3, rarity: "rare", attackSpeed: 1400 },
+  frostGiant: { name: "Frost Giant", emoji: "🧌", hp: 18, color: "#006064", taunt: "I CRUSH tiny creatures!", steal: 3, rarity: "rare", attackSpeed: 1700 },
+  pharaoh: { name: "Cursed Pharaoh", emoji: "🤴", hp: 16, color: "#4E342E", taunt: "My curse spans millennia!", steal: 3, rarity: "rare", attackSpeed: 1500 },
+
+  // ── ULTRA RARES (nightmare: 30+ HP, devastating, very fast) ──
+  abyssalHorror: { name: "Abyssal Horror", emoji: "🦑", hp: 35, color: "#0A0A40", taunt: "REALITY BENDS TO MY WILL!", steal: 5, rarity: "ultraRare", attackSpeed: 1200 },
+  volcanoDemon: { name: "Volcano Demon", emoji: "😈", hp: 32, color: "#B71C1C", taunt: "YOUR SOUL FUELS MY FLAMES!", steal: 5, rarity: "ultraRare", attackSpeed: 1100 },
+  ancientDruid: { name: "Ancient Druid", emoji: "🧙", hp: 30, color: "#1B5E20", taunt: "TEN THOUSAND YEARS OF RAGE!", steal: 5, rarity: "ultraRare", attackSpeed: 1300 },
+  cosmicTempest: { name: "Cosmic Tempest", emoji: "🌀", hp: 33, color: "#311B92", taunt: "I AM THE END OF ALL SKIES!", steal: 5, rarity: "ultraRare", attackSpeed: 1000 },
+  glacialTitan: { name: "Glacial Titan", emoji: "🏔️", hp: 35, color: "#004D40", taunt: "AN ETERNAL ICE AGE BEGINS!", steal: 5, rarity: "ultraRare", attackSpeed: 1200 },
+  sandmasterOsiris: { name: "Sandmaster Osiris", emoji: "☠️", hp: 34, color: "#3E2723", taunt: "DEATH WALKS THE DESERT!", steal: 5, rarity: "ultraRare", attackSpeed: 1100 },
+};
+
+// Map locations to their enemies per rarity
+const LOCATION_ENEMIES = {
+  ocean: { common: ["crab", "shark"], uncommon: ["anchorCrab"], rare: ["seaSerpent"], ultraRare: ["abyssalHorror"] },
+  volcano: { common: ["lavaSlime", "fireImp"], uncommon: ["magmaGolem"], rare: ["infernoWyrm"], ultraRare: ["volcanoDemon"] },
+  enchanted: { common: ["goblin", "troll"], uncommon: ["shadowElf"], rare: ["treantLord"], ultraRare: ["ancientDruid"] },
+  clouds: { common: ["stormSprite", "skyBandit"], uncommon: ["thunderHawk"], rare: ["stormDragon"], ultraRare: ["cosmicTempest"] },
+  arctic: { common: ["frostWolf", "snowGremlin"], uncommon: ["iceWraith"], rare: ["frostGiant"], ultraRare: ["glacialTitan"] },
+  desert: { common: ["sandBandit", "scorpion"], uncommon: ["sandGolem"], rare: ["pharaoh"], ultraRare: ["sandmasterOsiris"] },
 };
 
 const BOSSES = {
@@ -923,6 +1077,157 @@ const AVATARS = [
 ];
 
 const ATTACK_WORDS = ["POW!", "BAM!", "WHACK!", "BONK!", "SMACK!", "ZAP!", "WHAM!", "KAPOW!"];
+
+function EnemyDisplay({ enemyId, size = 48 }) {
+  const s = size;
+  if (enemyId === "shark") {
+    // Biscuit Shark — a shark made of biscuit with chocolate chip spots!
+    return (
+      <svg width={s} height={s * 0.7} viewBox="0 0 120 80">
+        <defs>
+          <radialGradient id="bshark" cx="45%" cy="40%">
+            <stop offset="0%" stopColor="#F5DEB3"/>
+            <stop offset="50%" stopColor="#DEB887"/>
+            <stop offset="100%" stopColor="#C8A96E"/>
+          </radialGradient>
+          <radialGradient id="bsharkShine" cx="35%" cy="30%">
+            <stop offset="0%" stopColor="white" stopOpacity="0.2"/>
+            <stop offset="100%" stopColor="white" stopOpacity="0"/>
+          </radialGradient>
+        </defs>
+        {/* Shadow */}
+        <ellipse cx="58" cy="70" rx="40" ry="6" fill="#8D6E63" opacity="0.15"/>
+        {/* Body — biscuit-coloured shark shape */}
+        <path d="M10,40 Q10,20 30,18 Q50,16 75,22 Q95,28 110,38 Q105,42 95,45 Q75,50 50,50 Q30,50 15,46 Q10,44 10,40Z" fill="url(#bshark)" stroke="#B8860B" strokeWidth="1.5"/>
+        {/* Baked edge ring */}
+        <path d="M10,40 Q10,20 30,18 Q50,16 75,22 Q95,28 110,38 Q105,42 95,45 Q75,50 50,50 Q30,50 15,46 Q10,44 10,40Z" fill="none" stroke="#C49A6C" strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4"/>
+        {/* Dorsal fin — also biscuit */}
+        <path d="M55,18 L60,2 L68,18Z" fill="#DEB887" stroke="#B8860B" strokeWidth="1"/>
+        <circle cx="61" cy="11" r="1.5" fill="#8D6E63" opacity="0.5"/>
+        {/* Tail fin */}
+        <path d="M10,34 L2,24 L8,36 L2,48 L10,42Z" fill="#DEB887" stroke="#B8860B" strokeWidth="1"/>
+        <circle cx="6" cy="32" r="1" fill="#8D6E63" opacity="0.4"/>
+        {/* Side fin */}
+        <path d="M55,48 L50,62 L65,50Z" fill="#DEB887" stroke="#B8860B" strokeWidth="1"/>
+        {/* Chocolate chip spots! */}
+        <circle cx="30" cy="30" r="3.5" fill="#5D4037"/><circle cx="29" cy="29" r="1.2" fill="#8D6E63" opacity="0.5"/>
+        <circle cx="50" cy="28" r="3" fill="#5D4037"/><circle cx="49" cy="27" r="1" fill="#8D6E63" opacity="0.5"/>
+        <circle cx="70" cy="32" r="3.2" fill="#5D4037"/><circle cx="69" cy="31" r="1.1" fill="#8D6E63" opacity="0.5"/>
+        <circle cx="42" cy="40" r="2.5" fill="#5D4037"/><circle cx="41" cy="39" r="0.9" fill="#8D6E63" opacity="0.5"/>
+        <circle cx="60" cy="42" r="2.8" fill="#5D4037"/><circle cx="59" cy="41" r="1" fill="#8D6E63" opacity="0.5"/>
+        <circle cx="82" cy="36" r="2.5" fill="#5D4037"/><circle cx="81" cy="35" r="0.9" fill="#8D6E63" opacity="0.5"/>
+        <circle cx="22" cy="38" r="2" fill="#5D4037"/><circle cx="21.5" cy="37" r="0.7" fill="#8D6E63" opacity="0.5"/>
+        <circle cx="90" cy="38" r="2" fill="#4E342E"/><circle cx="89.5" cy="37" r="0.7" fill="#795548" opacity="0.5"/>
+        {/* Bake spots */}
+        <circle cx="38" cy="24" r="4" fill="#C49A6C" opacity="0.25"/>
+        <circle cx="78" cy="42" r="3.5" fill="#C49A6C" opacity="0.2"/>
+        {/* Drizzle lines */}
+        <path d="M25,35 Q35,32 45,36 Q55,40 65,35 Q75,31 85,36" stroke="#B8860B" strokeWidth="0.8" fill="none" opacity="0.2"/>
+        {/* Shine */}
+        <path d="M10,40 Q10,20 30,18 Q50,16 75,22 Q95,28 110,38 Q105,42 95,45 Q75,50 50,50 Q30,50 15,46 Q10,44 10,40Z" fill="url(#bsharkShine)"/>
+        {/* Eye — mean looking! */}
+        <circle cx="95" cy="34" r="5" fill="white"/>
+        <circle cx="96" cy="35" r="3" fill="#111"/>
+        <circle cx="97" cy="33" r="1" fill="white"/>
+        {/* Mean eyebrow */}
+        <line x1="90" y1="28" x2="100" y2="30" stroke="#5D4037" strokeWidth="2" strokeLinecap="round"/>
+        {/* Mouth with biscuit teeth */}
+        <path d="M98,42 Q105,44 110,40" stroke="#5D4037" strokeWidth="1.5" fill="none"/>
+        <path d="M100,42 L101,46 L103,42 L105,46 L107,42" stroke="#F5DEB3" strokeWidth="1.5" fill="none"/>
+        {/* Crumbs falling */}
+        <circle cx="45" cy="55" r="1.5" fill="#DEB887" opacity="0.4"/>
+        <circle cx="35" cy="58" r="1" fill="#C8A96E" opacity="0.3"/>
+        <circle cx="55" cy="57" r="1.2" fill="#DEB887" opacity="0.35"/>
+      </svg>
+    );
+  }
+  if (enemyId === "frostWolf") {
+    // Frost Wolf — icy blue wolf with frost crystals and frozen breath
+    return (
+      <svg width={s} height={s} viewBox="0 0 100 100">
+        <defs>
+          <radialGradient id="fwFur" cx="45%" cy="40%">
+            <stop offset="0%" stopColor="#B0BEC5"/>
+            <stop offset="50%" stopColor="#78909C"/>
+            <stop offset="100%" stopColor="#546E7A"/>
+          </radialGradient>
+          <radialGradient id="fwFrost" cx="50%" cy="50%">
+            <stop offset="0%" stopColor="#E3F2FD" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#90CAF9" stopOpacity="0"/>
+          </radialGradient>
+        </defs>
+        {/* Frost aura glow */}
+        <ellipse cx="50" cy="52" rx="46" ry="40" fill="url(#fwFrost)" opacity="0.3"/>
+        {/* Ears — pointed with frost tips */}
+        <polygon points="22,32 30,8 40,30" fill="#78909C" stroke="#546E7A" strokeWidth="1.5"/>
+        <polygon points="60,30 70,8 78,32" fill="#78909C" stroke="#546E7A" strokeWidth="1.5"/>
+        <polygon points="26,28 30,14 34,27" fill="#B3E5FC" opacity="0.6"/>
+        <polygon points="64,27 70,14 74,28" fill="#B3E5FC" opacity="0.6"/>
+        {/* Frost crystals on ear tips */}
+        <polygon points="30,8 28,4 30,2 32,4" fill="#E3F2FD" opacity="0.8"/>
+        <polygon points="70,8 68,4 70,2 72,4" fill="#E3F2FD" opacity="0.8"/>
+        {/* Head */}
+        <ellipse cx="50" cy="48" rx="32" ry="28" fill="url(#fwFur)" stroke="#455A64" strokeWidth="1.5"/>
+        {/* Frost patches on fur */}
+        <ellipse cx="30" cy="40" rx="8" ry="5" fill="#E3F2FD" opacity="0.35"/>
+        <ellipse cx="68" cy="42" rx="7" ry="4" fill="#E3F2FD" opacity="0.3"/>
+        <ellipse cx="50" cy="32" rx="10" ry="4" fill="#B3E5FC" opacity="0.25"/>
+        {/* White muzzle */}
+        <ellipse cx="50" cy="58" rx="18" ry="13" fill="#CFD8DC" opacity="0.8"/>
+        <ellipse cx="50" cy="60" rx="14" ry="10" fill="#ECEFF1" opacity="0.6"/>
+        {/* Ice crystals growing on face */}
+        <polygon points="20,45 16,40 18,36 22,38" fill="#B3E5FC" stroke="#90CAF9" strokeWidth="0.5" opacity="0.7"/>
+        <polygon points="80,45 84,40 82,36 78,38" fill="#B3E5FC" stroke="#90CAF9" strokeWidth="0.5" opacity="0.7"/>
+        <polygon points="15,50 11,46 14,42" fill="#E1F5FE" stroke="#90CAF9" strokeWidth="0.5" opacity="0.5"/>
+        <polygon points="85,50 89,46 86,42" fill="#E1F5FE" stroke="#90CAF9" strokeWidth="0.5" opacity="0.5"/>
+        {/* Frost on forehead */}
+        <polygon points="45,28 47,22 50,26 53,22 55,28" fill="#E3F2FD" stroke="#90CAF9" strokeWidth="0.5" opacity="0.6"/>
+        {/* Eyes — icy glowing blue */}
+        <ellipse cx="38" cy="44" rx="6" ry="6.5" fill="#E3F2FD"/>
+        <ellipse cx="62" cy="44" rx="6" ry="6.5" fill="#E3F2FD"/>
+        <ellipse cx="39" cy="45" rx="3.5" ry="4.5" fill="#29B6F6"/>
+        <ellipse cx="63" cy="45" rx="3.5" ry="4.5" fill="#29B6F6"/>
+        <ellipse cx="39" cy="45" rx="2" ry="3" fill="#0288D1"/>
+        <ellipse cx="63" cy="45" rx="2" ry="3" fill="#0288D1"/>
+        <circle cx="40" cy="43" r="1.5" fill="white" opacity="0.9"/>
+        <circle cx="64" cy="43" r="1.5" fill="white" opacity="0.9"/>
+        {/* Eye frost glow */}
+        <ellipse cx="38" cy="44" rx="8" ry="7" fill="#29B6F6" opacity="0.12"/>
+        <ellipse cx="62" cy="44" rx="8" ry="7" fill="#29B6F6" opacity="0.12"/>
+        {/* Angry brows */}
+        <line x1="30" y1="36" x2="42" y2="38" stroke="#37474F" strokeWidth="2.5" strokeLinecap="round"/>
+        <line x1="58" y1="38" x2="70" y2="36" stroke="#37474F" strokeWidth="2.5" strokeLinecap="round"/>
+        {/* Nose */}
+        <ellipse cx="50" cy="56" rx="5" ry="3.5" fill="#263238"/>
+        <ellipse cx="50" cy="55" rx="2" ry="1" fill="#546E7A" opacity="0.5"/>
+        {/* Mouth — snarling */}
+        <path d="M40,62 Q44,66 48,62" stroke="#37474F" strokeWidth="1.5" fill="none"/>
+        <path d="M52,62 Q56,66 60,62" stroke="#37474F" strokeWidth="1.5" fill="none"/>
+        {/* Fangs */}
+        <polygon points="43,62 45,68 47,62" fill="white" stroke="#CFD8DC" strokeWidth="0.5"/>
+        <polygon points="53,62 55,68 57,62" fill="white" stroke="#CFD8DC" strokeWidth="0.5"/>
+        {/* Frozen breath — icy particles */}
+        <circle cx="38" cy="72" r="2" fill="#B3E5FC" opacity="0.5"/>
+        <circle cx="44" cy="76" r="1.5" fill="#E3F2FD" opacity="0.4"/>
+        <circle cx="50" cy="74" r="2.5" fill="#B3E5FC" opacity="0.3"/>
+        <circle cx="56" cy="76" r="1.5" fill="#E1F5FE" opacity="0.4"/>
+        <circle cx="62" cy="72" r="2" fill="#B3E5FC" opacity="0.35"/>
+        <circle cx="35" cy="78" r="1" fill="#E3F2FD" opacity="0.3"/>
+        <circle cx="48" cy="80" r="1.5" fill="#B3E5FC" opacity="0.2"/>
+        {/* Snowflake particles around */}
+        <text x="8" y="30" fontSize="7" fill="#B3E5FC" opacity="0.5">❄</text>
+        <text x="82" y="25" fontSize="6" fill="#E3F2FD" opacity="0.4">❄</text>
+        <text x="12" y="65" fontSize="5" fill="#90CAF9" opacity="0.3">❄</text>
+        <text x="80" y="68" fontSize="6" fill="#B3E5FC" opacity="0.35">❄</text>
+        {/* Icicles hanging from chin */}
+        <polygon points="42,68 43,75 44,68" fill="#B3E5FC" stroke="#90CAF9" strokeWidth="0.3" opacity="0.6"/>
+        <polygon points="49,69 50,78 51,69" fill="#E3F2FD" stroke="#90CAF9" strokeWidth="0.3" opacity="0.5"/>
+        <polygon points="56,68 57,74 58,68" fill="#B3E5FC" stroke="#90CAF9" strokeWidth="0.3" opacity="0.6"/>
+      </svg>
+    );
+  }
+  return null; // fallback to emoji
+}
 
 // ─── COMPONENTS ──────────────────────────────────────────
 
@@ -1793,20 +2098,32 @@ function EnemyOnField({ enemy, onClick, style }) {
 
   const urgent = secsLeft <= 15;
   const critical = secsLeft <= 5;
+  const rarity = enemy.rarity || "common";
+  const rarityColor = RARITY_COLORS[rarity];
+  const isSpecial = rarity !== "common";
 
   return (
     <div onClick={onClick} style={{
       position: "absolute", fontSize: "2.4rem", cursor: "pointer",
-      animation: critical ? "battleShake 0.4s ease-in-out infinite" : "enemyWobble 1s ease-in-out infinite",
+      animation: critical ? "battleShake 0.4s ease-in-out infinite" : rarity === "ultraRare" ? "battleShake 0.6s ease-in-out infinite" : "enemyWobble 1s ease-in-out infinite",
       filter: `drop-shadow(0 4px 12px rgba(200,0,0,${urgent ? "0.7" : "0.4"}))`,
       transition: "transform 0.15s", userSelect: "none", zIndex: 8, ...style,
+      boxShadow: RARITY_GLOW[rarity],
     }}
       onMouseEnter={e => e.currentTarget.style.transform = "scale(1.3)"}
       onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
     >
-      {enemy.emoji}
+      {EnemyDisplay({ enemyId: enemy.id, size: 56 }) || enemy.emoji}
+      {/* Rarity label */}
+      {isSpecial && <div style={{
+        position: "absolute", top: -34, left: "50%", transform: "translateX(-50%)",
+        background: rarityColor, color: "white", borderRadius: 6,
+        padding: "1px 6px", fontSize: "0.45rem", fontWeight: 800, whiteSpace: "nowrap",
+        fontFamily: "'Fredoka', sans-serif", letterSpacing: 0.5,
+        boxShadow: `0 0 8px ${rarityColor}88`,
+      }}>{RARITY_LABELS[rarity]}</div>}
       <div style={{
-        position: "absolute", top: -22, left: "50%", transform: "translateX(-50%)",
+        position: "absolute", top: isSpecial ? -20 : -22, left: "50%", transform: "translateX(-50%)",
         background: critical ? "rgba(255,0,0,0.95)" : urgent ? "rgba(255,100,0,0.9)" : "rgba(200,0,0,0.85)",
         color: "white", borderRadius: 6,
         padding: "1px 6px", fontSize: "0.5rem", fontWeight: 800, whiteSpace: "nowrap",
@@ -1861,49 +2178,99 @@ function SickScreen({ creature, creatureData, onSummonBoss }) {
   );
 }
 
+const BATTLE_MOVES = [
+  { id: "slash", name: "Slash", emoji: "⚔️", dmg: 1, cooldown: 0, color: "#FF6B6B", desc: "Quick attack", effect: "POW!" },
+  { id: "power", name: "Power Strike", emoji: "💥", dmg: 3, cooldown: 4000, color: "#FF9800", desc: "Heavy hit (4s cooldown)", effect: "SMASH!" },
+  { id: "fireball", name: "Fireball", emoji: "🔥", dmg: 2, cooldown: 2500, color: "#F44336", desc: "Ranged fire (2.5s)", effect: "BURN!" },
+  { id: "shield", name: "Shield", emoji: "🛡️", dmg: 0, cooldown: 6000, color: "#4FC3F7", desc: "Block next hit", effect: "BLOCK!", special: "shield" },
+  { id: "heal", name: "Heal", emoji: "💚", dmg: 0, cooldown: 8000, color: "#66BB6A", desc: "Restore 2 HP (8s)", effect: "HEAL!", special: "heal" },
+  { id: "fury", name: "Fury", emoji: "😤", dmg: 5, cooldown: 12000, color: "#9C27B0", desc: "Ultimate! (12s)", effect: "FURY!!!" },
+];
+
 function BattleScreen({ enemy, avatar, onWin, onLose, isBoss }) {
   const [enemyHp, setEnemyHp] = useState(enemy.hp);
-  const playerMaxHp = isBoss ? 8 : 5;
+  const rarity = enemy.rarity || "common";
+  const playerMaxHp = isBoss ? 8 : rarity === "ultraRare" ? 10 : rarity === "rare" ? 8 : rarity === "uncommon" ? 6 : 5;
   const [playerHp, setPlayerHp] = useState(playerMaxHp);
   const [attackEffect, setAttackEffect] = useState(null);
   const [enemyAttackEffect, setEnemyAttackEffect] = useState(null);
   const [shakeEnemy, setShakeEnemy] = useState(false);
   const [shakePlayer, setShakePlayer] = useState(false);
   const [battleLog, setBattleLog] = useState([`${enemy.name} appeared! "${enemy.taunt}"`]);
+  const [cooldowns, setCooldowns] = useState({});
+  const [shielded, setShielded] = useState(false);
+  const [now, setNow] = useState(Date.now());
   const enemyTimerRef = useRef(null);
   const battleOverRef = useRef(false);
 
-  const atkSpeed = isBoss ? (enemy.attackSpeed || 2000) : (1800 + Math.random() * 1200);
+  // Tick for cooldown display
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 100);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     const enemyAttack = () => {
       if (battleOverRef.current) return;
-      setShakePlayer(true); setEnemyAttackEffect("💥");
-      setBattleLog(prev => [...prev.slice(-3), `${enemy.name} attacks you!`]);
-      setPlayerHp(prev => {
+      if (shielded) {
+        setShielded(false);
+        setBattleLog(prev => [...prev.slice(-4), `🛡️ You blocked ${enemy.name}'s attack!`]);
+        setEnemyAttackEffect("🛡️");
+        setTimeout(() => setEnemyAttackEffect(null), 400);
+      } else {
+        setShakePlayer(true); setEnemyAttackEffect("💥");
         const dmg = isBoss ? (Math.random() < 0.3 ? 2 : 1) : 1;
-        const next = prev - dmg;
-        if (next <= 0) { battleOverRef.current = true; setTimeout(() => onLose(enemy), 800); }
-        return Math.max(0, next);
-      });
-      setTimeout(() => { setShakePlayer(false); setEnemyAttackEffect(null); }, 400);
-      if (!battleOverRef.current) enemyTimerRef.current = setTimeout(enemyAttack, isBoss ? (enemy.attackSpeed || 2000) : (1800 + Math.random() * 1200));
+        setBattleLog(prev => [...prev.slice(-4), `${enemy.name} hits you for ${dmg} damage!`]);
+        setPlayerHp(prev => {
+          const next = prev - dmg;
+          if (next <= 0) { battleOverRef.current = true; setTimeout(() => onLose(enemy), 800); }
+          return Math.max(0, next);
+        });
+        setTimeout(() => { setShakePlayer(false); setEnemyAttackEffect(null); }, 400);
+      }
+      if (!battleOverRef.current) enemyTimerRef.current = setTimeout(enemyAttack, enemy.attackSpeed || (1800 + Math.random() * 1200));
     };
-    enemyTimerRef.current = setTimeout(enemyAttack, isBoss ? 1500 : (2000 + Math.random() * 1000));
+    enemyTimerRef.current = setTimeout(enemyAttack, enemy.attackSpeed ? enemy.attackSpeed - 300 : (2000 + Math.random() * 1000));
     return () => clearTimeout(enemyTimerRef.current);
-  }, [enemy, onLose, isBoss]);
+  }, [enemy, onLose, isBoss, shielded]);
 
-  const attackEnemy = () => {
+  const useMove = (move) => {
     if (battleOverRef.current) return;
-    const word = ATTACK_WORDS[Math.floor(Math.random() * ATTACK_WORDS.length)];
-    setAttackEffect(word); setShakeEnemy(true);
-    setBattleLog(prev => [...prev.slice(-3), `You hit ${enemy.name}! ${word}`]);
+    const cdEnd = cooldowns[move.id] || 0;
+    if (now < cdEnd) return; // still on cooldown
+
+    // Set cooldown
+    if (move.cooldown > 0) {
+      setCooldowns(prev => ({ ...prev, [move.id]: Date.now() + move.cooldown }));
+    }
+
+    // Handle specials
+    if (move.special === "shield") {
+      setShielded(true);
+      setBattleLog(prev => [...prev.slice(-4), `🛡️ You raised your shield!`]);
+      setAttackEffect(move.effect);
+      setTimeout(() => setAttackEffect(null), 500);
+      return;
+    }
+    if (move.special === "heal") {
+      setPlayerHp(prev => Math.min(prev + 2, playerMaxHp));
+      setBattleLog(prev => [...prev.slice(-4), `💚 You healed 2 HP!`]);
+      setAttackEffect(move.effect);
+      setTimeout(() => setAttackEffect(null), 500);
+      return;
+    }
+
+    // Damage move
+    setShakeEnemy(true);
+    setAttackEffect(move.effect);
+    const dmg = move.dmg;
+    setBattleLog(prev => [...prev.slice(-4), `${move.emoji} ${move.name}! ${dmg} damage! ${move.effect}`]);
     setEnemyHp(prev => {
-      const next = prev - 1;
+      const next = prev - dmg;
       if (next <= 0) { battleOverRef.current = true; clearTimeout(enemyTimerRef.current); setTimeout(() => onWin(enemy), 600); }
-      return next;
+      return Math.max(0, next);
     });
-    setTimeout(() => { setAttackEffect(null); setShakeEnemy(false); }, 350);
+    setTimeout(() => { setAttackEffect(null); setShakeEnemy(false); }, 400);
   };
 
   const eHp = Math.max(0, (enemyHp / enemy.hp) * 100);
@@ -1916,63 +2283,88 @@ function BattleScreen({ enemy, avatar, onWin, onLose, isBoss }) {
         ? "linear-gradient(180deg, #2d0a0a 0%, #4a0e0e 30%, #1a0505 100%)"
         : "linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-      fontFamily: "'Quicksand', sans-serif", padding: 20,
+      fontFamily: "'Quicksand', sans-serif", padding: "12px 16px", overflowY: "auto",
     }}>
       <div style={{
-        fontFamily: "'Fredoka', sans-serif", fontSize: isBoss ? "1.8rem" : "1.6rem", fontWeight: 700,
-        color: isBoss ? "#FF1744" : "#FF6B6B", marginBottom: 20,
+        fontFamily: "'Fredoka', sans-serif", fontSize: isBoss ? "1.5rem" : "1.3rem", fontWeight: 700,
+        color: isBoss ? "#FF1744" : "#FF6B6B", marginBottom: 10,
         textShadow: isBoss ? "0 0 30px rgba(255,23,68,0.7)" : "0 0 20px rgba(255,107,107,0.5)",
         animation: "pulse 2s ease-in-out infinite",
-      }}>{isBoss ? "👑 BOSS BATTLE! 👑" : "⚔️ BATTLE! ⚔️"}</div>
+      }}>{isBoss ? "👑 BOSS BATTLE! 👑" : rarity === "ultraRare" ? "🌟 ULTRA RARE BATTLE! 🌟" : rarity === "rare" ? "💎 RARE BATTLE! 💎" : rarity === "uncommon" ? "✨ UNCOMMON BATTLE! ✨" : "⚔️ BATTLE! ⚔️"}</div>
 
-      <div style={{ textAlign: "center", marginBottom: 24 }}>
+      {/* Enemy */}
+      <div style={{ textAlign: "center", marginBottom: 12 }}>
         <div style={{
-          fontSize: isBoss ? "5.5rem" : "4.5rem",
+          fontSize: isBoss ? "4.5rem" : "3.8rem",
           animation: shakeEnemy ? "battleShake 0.3s" : "enemyWobble 2s ease-in-out infinite",
           filter: enemyHp <= 0 ? "grayscale(1) opacity(0.5)" : isBoss ? `drop-shadow(0 0 30px ${enemy.color})` : "drop-shadow(0 0 20px rgba(255,0,0,0.3))",
-        }}>{enemy.emoji}</div>
-        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.1rem", fontWeight: 700, color: enemy.color, marginTop: 4 }}>
+        }}>{EnemyDisplay({ enemyId: enemy.id, size: isBoss ? 100 : 80 }) || enemy.emoji}</div>
+        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "0.95rem", fontWeight: 700, color: enemy.color, marginTop: 2 }}>
           {enemy.name} {isBoss && "👑"}
         </div>
-        <div style={{ width: 200, height: 16, background: "rgba(255,255,255,0.1)", borderRadius: 8, margin: "6px auto", overflow: "hidden", border: isBoss ? "2px solid #FF1744" : "2px solid rgba(255,255,255,0.2)" }}>
-          <div style={{ height: "100%", borderRadius: 6, background: eHp > 50 ? "linear-gradient(90deg, #66BB6A, #43A047)" : eHp > 25 ? "linear-gradient(90deg, #FFA726, #FF9800)" : "linear-gradient(90deg, #EF5350, #D32F2F)", width: `${eHp}%`, transition: "width 0.3s" }} />
+        <div style={{ width: 180, height: 14, background: "rgba(255,255,255,0.1)", borderRadius: 7, margin: "4px auto", overflow: "hidden", border: isBoss ? "2px solid #FF1744" : "2px solid rgba(255,255,255,0.2)" }}>
+          <div style={{ height: "100%", borderRadius: 5, background: eHp > 50 ? "linear-gradient(90deg, #66BB6A, #43A047)" : eHp > 25 ? "linear-gradient(90deg, #FFA726, #FF9800)" : "linear-gradient(90deg, #EF5350, #D32F2F)", width: `${eHp}%`, transition: "width 0.3s" }} />
         </div>
-        <div style={{ fontSize: "0.7rem", color: "#aaa" }}>HP: {Math.max(0, enemyHp)}/{enemy.hp}</div>
-        {attackEffect && <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#FFD54F", fontFamily: "'Fredoka', sans-serif", animation: "attackPop 0.35s ease-out forwards" }}>{attackEffect}</div>}
+        <div style={{ fontSize: "0.65rem", color: "#aaa" }}>HP: {Math.max(0, enemyHp)}/{enemy.hp}</div>
+        {attackEffect && <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#FFD54F", fontFamily: "'Fredoka', sans-serif", animation: "attackPop 0.35s ease-out forwards" }}>{attackEffect}</div>}
       </div>
 
-      <div style={{ fontSize: "1.2rem", fontWeight: 800, color: "#FFD54F", fontFamily: "'Fredoka', sans-serif", margin: "0 0 16px" }}>VS</div>
+      <div style={{ fontSize: "1rem", fontWeight: 800, color: "#FFD54F", fontFamily: "'Fredoka', sans-serif", margin: "0 0 8px" }}>VS</div>
 
-      <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: "3.5rem", animation: shakePlayer ? "battleShake 0.3s" : "bobble 2s ease-in-out infinite", display: "flex", justifyContent: "center" }}>
-          <AvatarDisplay emoji={avatar?.emoji || "🧑"} bodyColor={avatar?.bodyColor || "none"} size={70} animalId={avatar?.id} />
+      {/* Player */}
+      <div style={{ textAlign: "center", marginBottom: 12 }}>
+        <div style={{ animation: shakePlayer ? "battleShake 0.3s" : "bobble 2s ease-in-out infinite", display: "flex", justifyContent: "center" }}>
+          <AvatarDisplay emoji={avatar?.emoji || "🧑"} bodyColor={avatar?.bodyColor || "none"} size={56} animalId={avatar?.id} />
         </div>
-        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1rem", fontWeight: 700, color: avatar?.color || "#fff", marginTop: 4 }}>{avatar?.playerName || "You"}</div>
-        <div style={{ width: 200, height: 16, background: "rgba(255,255,255,0.1)", borderRadius: 8, margin: "6px auto", overflow: "hidden", border: "2px solid rgba(255,255,255,0.2)" }}>
-          <div style={{ height: "100%", borderRadius: 6, background: pHp > 50 ? "linear-gradient(90deg, #4FC3F7, #29B6F6)" : pHp > 25 ? "linear-gradient(90deg, #FFA726, #FF9800)" : "linear-gradient(90deg, #EF5350, #D32F2F)", width: `${pHp}%`, transition: "width 0.3s" }} />
+        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "0.85rem", fontWeight: 700, color: avatar?.color || "#fff", marginTop: 2 }}>{avatar?.playerName || "You"}{shielded && " 🛡️"}</div>
+        <div style={{ width: 180, height: 14, background: "rgba(255,255,255,0.1)", borderRadius: 7, margin: "4px auto", overflow: "hidden", border: "2px solid rgba(255,255,255,0.2)" }}>
+          <div style={{ height: "100%", borderRadius: 5, background: pHp > 50 ? "linear-gradient(90deg, #4FC3F7, #29B6F6)" : pHp > 25 ? "linear-gradient(90deg, #FFA726, #FF9800)" : "linear-gradient(90deg, #EF5350, #D32F2F)", width: `${pHp}%`, transition: "width 0.3s" }} />
         </div>
-        <div style={{ fontSize: "0.7rem", color: "#aaa" }}>HP: {Math.max(0, playerHp)}/{playerMaxHp}</div>
-        {enemyAttackEffect && <div style={{ fontSize: "1.5rem", animation: "attackPop 0.35s ease-out forwards" }}>{enemyAttackEffect}</div>}
+        <div style={{ fontSize: "0.65rem", color: "#aaa" }}>HP: {Math.max(0, playerHp)}/{playerMaxHp}</div>
+        {enemyAttackEffect && <div style={{ fontSize: "1.3rem", animation: "attackPop 0.35s ease-out forwards" }}>{enemyAttackEffect}</div>}
       </div>
 
-      <button onClick={attackEnemy} style={{
-        background: isBoss ? "linear-gradient(135deg, #FF1744, #D50000)" : "linear-gradient(135deg, #FF6B6B, #EE5A24)",
-        color: "white", border: "none", borderRadius: 18, padding: "16px 48px",
-        fontFamily: "'Fredoka', sans-serif", fontSize: "1.3rem", fontWeight: 700, cursor: "pointer",
-        boxShadow: isBoss ? "0 4px 25px rgba(255,23,68,0.6)" : "0 4px 20px rgba(238,90,36,0.5)",
-        animation: "pulse 1.5s ease-in-out infinite",
-      }}
-        onMouseDown={e => e.currentTarget.style.transform = "scale(0.92)"}
-        onMouseUp={e => e.currentTarget.style.transform = "scale(1)"}
-        onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-      >⚔️ ATTACK! ⚔️</button>
-      <div style={{ fontSize: "0.7rem", color: "#888", marginTop: 8 }}>
-        {isBoss ? "Tap FAST! The boss hits hard!" : "Tap fast to defeat the enemy!"}
+      {/* Move buttons */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, maxWidth: 360, width: "100%", marginBottom: 8 }}>
+        {BATTLE_MOVES.map(move => {
+          const cdEnd = cooldowns[move.id] || 0;
+          const onCd = now < cdEnd;
+          const cdLeft = onCd ? Math.ceil((cdEnd - now) / 1000) : 0;
+          const cdPct = onCd ? ((cdEnd - now) / move.cooldown) * 100 : 0;
+          return (
+            <button key={move.id} onClick={() => useMove(move)}
+              style={{
+                background: onCd ? "rgba(255,255,255,0.05)" : `linear-gradient(135deg, ${move.color}, ${move.color}cc)`,
+                color: onCd ? "#555" : "white", border: "none", borderRadius: 12,
+                padding: "8px 4px", fontFamily: "'Fredoka', sans-serif", fontSize: "0.7rem",
+                fontWeight: 700, cursor: onCd ? "not-allowed" : "pointer",
+                opacity: onCd ? 0.5 : 1, transition: "all 0.15s",
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                position: "relative", overflow: "hidden",
+              }}
+              onMouseDown={e => { if (!onCd) e.currentTarget.style.transform = "scale(0.92)"; }}
+              onMouseUp={e => e.currentTarget.style.transform = "scale(1)"}
+              onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+            >
+              {/* Cooldown overlay */}
+              {onCd && <div style={{ position: "absolute", bottom: 0, left: 0, width: `${cdPct}%`, height: "100%", background: "rgba(0,0,0,0.3)", transition: "width 0.1s" }} />}
+              <span style={{ fontSize: "1.2rem", position: "relative", zIndex: 1 }}>{move.emoji}</span>
+              <span style={{ position: "relative", zIndex: 1 }}>{onCd ? `${cdLeft}s` : move.name}</span>
+              {move.dmg > 0 && <span style={{ fontSize: "0.55rem", opacity: 0.7, position: "relative", zIndex: 1 }}>{move.dmg} dmg</span>}
+              {move.special && <span style={{ fontSize: "0.55rem", opacity: 0.7, position: "relative", zIndex: 1 }}>{move.desc}</span>}
+            </button>
+          );
+        })}
       </div>
 
-      <div style={{ marginTop: 16, maxWidth: 320, width: "100%", background: "rgba(0,0,0,0.3)", borderRadius: 12, padding: "8px 12px" }}>
-        {battleLog.slice(-3).map((log, i) => (
-          <div key={i} style={{ fontSize: "0.72rem", color: i === battleLog.slice(-3).length - 1 ? "#FFD54F" : "#999", fontWeight: i === battleLog.slice(-3).length - 1 ? 700 : 400, padding: "2px 0" }}>{log}</div>
+      <div style={{ fontSize: "0.6rem", color: "#555", marginBottom: 6 }}>
+        {isBoss ? "Use your moves wisely! The boss hits hard!" : "Slash is free — use specials strategically!"}
+      </div>
+
+      {/* Battle log */}
+      <div style={{ maxWidth: 340, width: "100%", background: "rgba(0,0,0,0.3)", borderRadius: 12, padding: "6px 10px" }}>
+        {battleLog.slice(-4).map((log, i) => (
+          <div key={i} style={{ fontSize: "0.65rem", color: i === battleLog.slice(-4).length - 1 ? "#FFD54F" : "#777", fontWeight: i === battleLog.slice(-4).length - 1 ? 700 : 400, padding: "1px 0" }}>{log}</div>
         ))}
       </div>
     </div>
@@ -2092,6 +2484,7 @@ export default function BiscuitQuest() {
   const [isBossBattle, setIsBossBattle] = useState(false);
   const [enemiesDefeated, setEnemiesDefeated] = useState(save?.enemiesDefeated || 0);
   const [bossesDefeated, setBossesDefeated] = useState(save?.bossesDefeated || 0);
+  const [killCounts, setKillCounts] = useState(save?.killCounts || { common: 0, uncommon: 0, rare: 0 });
   const [stolenBiscuits, setStolenBiscuits] = useState(0);
   const [evolution, setEvolution] = useState(null);
   const [sickCreatures, setSickCreatures] = useState(save?.sickCreatures || {});
@@ -2109,10 +2502,10 @@ export default function BiscuitQuest() {
     if (!avatar) return; // don't save if no avatar chosen yet
     writeSave({
       avatar, inventory, fedCounts, totalCollected,
-      enemiesDefeated, bossesDefeated, sickCreatures,
+      enemiesDefeated, bossesDefeated, killCounts, sickCreatures,
       potions, creaturePaths,
     });
-  }, [avatar, inventory, fedCounts, totalCollected, enemiesDefeated, bossesDefeated, sickCreatures, potions, creaturePaths]);
+  }, [avatar, inventory, fedCounts, totalCollected, enemiesDefeated, bossesDefeated, killCounts, sickCreatures, potions, creaturePaths]);
 
   // Start music if returning from save
   useEffect(() => {
@@ -2150,19 +2543,43 @@ export default function BiscuitQuest() {
     setFloatingBiscuits(biscuits);
   }, []);
 
-  // Enemies spawn
+  // Enemies spawn — rarity based on kill counts
   useEffect(() => {
     if (screen === "exploring" && currentLocation) {
       const spawnEnemy = () => {
-        const locEnemies = currentLocation.enemies;
-        const enemyId = locEnemies[Math.floor(Math.random() * locEnemies.length)];
-        setEnemies(prev => [...prev.slice(-2), { ...ENEMIES[enemyId], id: enemyId, key: `enemy-${Date.now()}`, x: 5 + Math.random() * 80, y: 10 + Math.random() * 60, spawnTime: Date.now() }]);
-        enemySpawnRef.current = setTimeout(spawnEnemy, 5000 + Math.random() * 6000);
+        const locId = currentLocation.id;
+        const locEnemies = LOCATION_ENEMIES[locId];
+        if (!locEnemies) return;
+
+        // Determine rarity based on kill thresholds
+        let rarity = "common";
+        const kc = killCounts;
+        if (kc.rare >= 3) {
+          rarity = "ultraRare";
+        } else if (kc.uncommon >= 6) {
+          rarity = "rare";
+        } else if (kc.common >= 10) {
+          rarity = "uncommon";
+        }
+
+        const pool = locEnemies[rarity] || locEnemies.common;
+        const enemyId = pool[Math.floor(Math.random() * pool.length)];
+        const enemyData = ENEMIES[enemyId];
+
+        setEnemies(prev => [...prev.slice(-2), {
+          ...enemyData, id: enemyId, key: `enemy-${Date.now()}`,
+          x: 5 + Math.random() * 80, y: 10 + Math.random() * 60,
+          spawnTime: Date.now(),
+        }]);
+
+        // Uncommons+ spawn slower
+        const spawnDelay = rarity === "ultraRare" ? 8000 : rarity === "rare" ? 6000 : rarity === "uncommon" ? 5000 : (4000 + Math.random() * 5000);
+        enemySpawnRef.current = setTimeout(spawnEnemy, spawnDelay);
       };
       enemySpawnRef.current = setTimeout(spawnEnemy, 3000 + Math.random() * 2000);
       return () => clearTimeout(enemySpawnRef.current);
     }
-  }, [screen, currentLocation]);
+  }, [screen, currentLocation, killCounts]);
 
   // After 60 seconds, unfought enemies leave a corrupted biscuit and disappear
   useEffect(() => {
@@ -2221,12 +2638,45 @@ export default function BiscuitQuest() {
     } else {
       setEnemies(prev => prev.filter(e => e.key !== enemy.key));
       setEnemiesDefeated(prev => prev + 1);
+
+      // Track rarity kills and reset counters at thresholds
+      const rarity = enemy.rarity || "common";
+      setKillCounts(prev => {
+        const next = { ...prev };
+        if (rarity === "ultraRare") {
+          // Ultra rare defeated — reset everything back to commons
+          return { common: 0, uncommon: 0, rare: 0 };
+        } else if (rarity === "rare") {
+          next.rare = (next.rare || 0) + 1;
+          if (next.rare >= 3) {
+            // 3 rares done → next will be ultra rare (don't reset yet, ultra rare reset handles it)
+          }
+        } else if (rarity === "uncommon") {
+          next.uncommon = (next.uncommon || 0) + 1;
+          if (next.uncommon >= 6) {
+            // 6 uncommons done → reset uncommon counter, rares start
+            next.uncommon = 0;
+          }
+        } else {
+          next.common = (next.common || 0) + 1;
+          if (next.common >= 10) {
+            // 10 commons done → reset common counter, uncommons start
+            next.common = 0;
+          }
+        }
+        return next;
+      });
+
+      // Bonus biscuits scale with rarity
       if (currentLocation) {
-        const bonusType = currentLocation.biscuits[Math.floor(Math.random() * currentLocation.biscuits.length)];
-        const bonusBiscuit = BISCUIT_TYPES.find(b => b.id === bonusType);
-        setInventory(prev => ({ ...prev, [bonusType]: (prev[bonusType] || 0) + 1 }));
-        setTotalCollected(prev => prev + 1);
-        setMessage(`You defeated ${enemy.name}! They dropped a ${bonusBiscuit.name}! 🎉`);
+        const bonusCount = rarity === "ultraRare" ? 5 : rarity === "rare" ? 3 : rarity === "uncommon" ? 2 : 1;
+        for (let i = 0; i < bonusCount; i++) {
+          const bonusType = currentLocation.biscuits[Math.floor(Math.random() * currentLocation.biscuits.length)];
+          setInventory(prev => ({ ...prev, [bonusType]: (prev[bonusType] || 0) + 1 }));
+        }
+        setTotalCollected(prev => prev + bonusCount);
+        const rarityLabel = RARITY_LABELS[rarity] || "Common";
+        setMessage(`${rarity === "ultraRare" ? "🌟" : rarity === "rare" ? "💎" : rarity === "uncommon" ? "✨" : ""} You defeated ${rarityLabel} ${enemy.name}! Got ${bonusCount} biscuit${bonusCount > 1 ? "s" : ""}! 🎉`);
       }
     }
     setTimeout(() => setMessage(""), 3000);
@@ -2262,12 +2712,16 @@ export default function BiscuitQuest() {
       const oldStage = getCreatureStage(currentFed);
       const newFed = currentFed + 1;
       const newStage = getCreatureStage(newFed);
-      const path = creaturePaths[creature.type];
+      const path = creaturePaths[creature.type] || "";
 
-      // Check if this feed would trigger the split (entering stage 3 without a path chosen)
-      if (newStage >= 3 && !path) {
-        // Don't consume the biscuit yet — show the choice screen
-        setPathChoice({ creature, currentFed: newFed });
+      // Check first split: entering stage 4 without main path
+      if (newStage >= 4 && path.length === 0) {
+        setPathChoice({ creature, currentFed: newFed, splitType: "first" });
+        return;
+      }
+      // Check second split: entering stage 7 without sub-path
+      if (newStage >= 7 && path.length === 1) {
+        setPathChoice({ creature, currentFed: newFed, splitType: "second" });
         return;
       }
 
@@ -2294,16 +2748,24 @@ export default function BiscuitQuest() {
 
   const choosePath = (chosenPath) => {
     if (!pathChoice) return;
-    const { creature, currentFed } = pathChoice;
-    setCreaturePaths(prev => ({ ...prev, [creature.type]: chosenPath }));
-    // Now consume the biscuit and do the evolution
+    const { creature, currentFed, splitType } = pathChoice;
+    const currentPath = creaturePaths[creature.type] || "";
+
+    let newPath;
+    if (splitType === "first") {
+      newPath = chosenPath; // "A" or "B"
+    } else {
+      newPath = currentPath + chosenPath; // "A1", "A2", "B1", "B2"
+    }
+
+    setCreaturePaths(prev => ({ ...prev, [creature.type]: newPath }));
     setInventory(prev => ({ ...prev, [creature.needs]: prev[creature.needs] - 1 }));
     const oldStage = getCreatureStage(currentFed - 1);
     setFedCounts(prev => ({ ...prev, [creature.id]: currentFed }));
     const newStage = getCreatureStage(currentFed);
     if (newStage > oldStage) {
-      const oldData = getCreatureData(creature.type, currentFed - 1, chosenPath);
-      const newData = getCreatureData(creature.type, currentFed, chosenPath);
+      const oldData = getCreatureData(creature.type, currentFed - 1, newPath);
+      const newData = getCreatureData(creature.type, currentFed, newPath);
       setEvolution({ creature, oldStage: oldData, newStage: newData, color: creature.color });
     }
     setPathChoice(null);
@@ -2345,7 +2807,7 @@ export default function BiscuitQuest() {
     potions, sickScreen, allMaxed, inventoryCount, totalEvolutions, sickCount,
     travelTo, collectBiscuit, startBattle, onBattleWin: () => onBattleWin(activeBattle),
     onBattleLose: () => onBattleLose(activeBattle), feedCreature, healCreature, summonBoss, goHome, setMessage,
-    music, creaturePaths, pathChoice, choosePath, resetGame }} />;
+    music, creaturePaths, pathChoice, choosePath, resetGame, killCounts }} />;
 }
 
 function LocationScene({ locationId, timePhase }) {
@@ -2564,7 +3026,7 @@ function GameView({ screen, avatar, inventory, fedCounts, currentLocation, float
   enemiesDefeated, bossesDefeated, evolution, setEvolution, sickCreatures,
   potions, sickScreen, allMaxed, inventoryCount, totalEvolutions, sickCount,
   travelTo, collectBiscuit, startBattle, onBattleWin, onBattleLose,
-  feedCreature, healCreature, summonBoss, goHome, setMessage, music, creaturePaths, pathChoice, choosePath, resetGame }) {
+  feedCreature, healCreature, summonBoss, goHome, setMessage, music, creaturePaths, pathChoice, choosePath, resetGame, killCounts }) {
 
   const time = useTimeOfDay();
   const tc = getTimeColors(time.phase, time.progress);
@@ -2592,36 +3054,69 @@ function GameView({ screen, avatar, inventory, fedCounts, currentLocation, float
       {/* Overlays */}
       {pathChoice && (() => {
         const tree = CREATURE_STAGES[pathChoice.creature.type];
-        const currentData = getCreatureData(pathChoice.creature.type, pathChoice.currentFed - 1);
+        const curPath = creaturePaths[pathChoice.creature.type] || "";
+        const currentData = getCreatureData(pathChoice.creature.type, pathChoice.currentFed - 1, curPath);
+        const isSecond = pathChoice.splitType === "second";
+        
+        // First split: show pathA vs pathB
+        // Second split: show subA vs subB of the chosen main path
+        let options;
+        if (isSecond) {
+          const mainBranch = curPath === "A" ? tree.pathA : tree.pathB;
+          options = [
+            { key: "1", data: mainBranch.subA, color: "#FF6B6B" },
+            { key: "2", data: mainBranch.subB, color: "#4FC3F7" },
+          ];
+        } else {
+          options = [
+            { key: "A", data: { name: tree.pathA.name, desc: tree.pathA.desc, stages: tree.pathA.stages, preview: tree.pathA.stages[0] }, color: tree.pathA.color || "#FF6B6B" },
+            { key: "B", data: { name: tree.pathB.name, desc: tree.pathB.desc, stages: tree.pathB.stages, preview: tree.pathB.stages[0] }, color: tree.pathB.color || "#4FC3F7" },
+          ];
+        }
+
         return (
-          <div style={{ position: "fixed", inset: 0, zIndex: 300, background: "linear-gradient(180deg, #1a1a2e 0%, #0f3460 50%, #1a1a2e 100%)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Quicksand', sans-serif", padding: 20 }}>
+          <div style={{ position: "fixed", inset: 0, zIndex: 300, background: isSecond ? "linear-gradient(180deg, #1a0a2e 0%, #2d1060 50%, #1a0a2e 100%)" : "linear-gradient(180deg, #1a1a2e 0%, #0f3460 50%, #1a1a2e 100%)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Quicksand', sans-serif", padding: 20 }}>
             <style>{`@keyframes pathGlow { 0%, 100% { box-shadow: 0 0 15px rgba(255,255,255,0.1); } 50% { box-shadow: 0 0 30px rgba(255,255,255,0.3); } } @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`}</style>
-            <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.3rem", fontWeight: 700, color: "#FFD54F", marginBottom: 8, animation: "slideUp 0.5s ease-out", textAlign: "center" }}>🔮 EVOLUTION SPLIT! 🔮</div>
-            <div style={{ fontSize: "0.9rem", color: "#B0BEC5", marginBottom: 4, textAlign: "center", animation: "slideUp 0.5s ease-out 0.1s both" }}>{currentData.name} can evolve two different ways!</div>
-            <div style={{ fontSize: "3rem", marginBottom: 16, animation: "slideUp 0.5s ease-out 0.15s both" }}>{currentData.emoji}</div>
-            <div style={{ fontSize: "0.8rem", color: "#78909C", marginBottom: 20, textAlign: "center", animation: "slideUp 0.5s ease-out 0.2s both" }}>Choose wisely — this cannot be undone!</div>
+            <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.3rem", fontWeight: 700, color: isSecond ? "#CE93D8" : "#FFD54F", marginBottom: 8, animation: "slideUp 0.5s ease-out", textAlign: "center" }}>
+              {isSecond ? "🌟 SPECIALISATION! 🌟" : "🔮 EVOLUTION SPLIT! 🔮"}
+            </div>
+            <div style={{ fontSize: "0.85rem", color: "#B0BEC5", marginBottom: 4, textAlign: "center", animation: "slideUp 0.5s ease-out 0.1s both" }}>
+              {currentData.name} can evolve two different ways!
+            </div>
+            <div style={{ fontSize: "3rem", marginBottom: 12, animation: "slideUp 0.5s ease-out 0.15s both" }}>{currentData.emoji}</div>
+            <div style={{ fontSize: "0.75rem", color: "#78909C", marginBottom: 16, textAlign: "center", animation: "slideUp 0.5s ease-out 0.2s both" }}>
+              {isSecond ? "Choose your final specialisation!" : "Choose wisely — this cannot be undone!"}
+            </div>
 
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-              {[{ key: "A", data: tree.pathA }, { key: "B", data: tree.pathB }].map((p, pi) => (
-                <div key={p.key} onClick={() => choosePath(p.key)}
-                  style={{
-                    background: "rgba(255,255,255,0.05)", border: `2px solid ${pi === 0 ? "#FF6B6B" : "#4FC3F7"}`,
-                    borderRadius: 20, padding: "20px 18px", width: 160, cursor: "pointer",
-                    transition: "all 0.2s", animation: `slideUp 0.5s ease-out ${0.3 + pi * 0.15}s both, pathGlow 3s ease-in-out infinite`,
-                    textAlign: "center",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05) translateY(-4px)"; e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
-                >
-                  <div style={{ fontSize: "0.7rem", fontWeight: 700, color: pi === 0 ? "#FF6B6B" : "#4FC3F7", fontFamily: "'Fredoka', sans-serif", marginBottom: 8 }}>PATH {p.key}</div>
-                  <div style={{ fontSize: "2.5rem", marginBottom: 6 }}>{p.data[0].emoji}</div>
-                  <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1rem", fontWeight: 700, color: pi === 0 ? "#FF8A80" : "#80D8FF", marginBottom: 4 }}>{p.data[0].name}</div>
-                  <div style={{ fontSize: "0.7rem", color: "#90A4AE", marginBottom: 8, fontStyle: "italic" }}>{p.data[0].desc}</div>
-                  <div style={{ fontSize: "0.6rem", color: "#607D8B", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 6 }}>
-                    Evolves into: <span style={{ fontWeight: 700, color: pi === 0 ? "#FF6B6B" : "#4FC3F7" }}>{p.data[1].name} {p.data[1].emoji}</span>
+              {options.map((opt, pi) => {
+                const preview = isSecond ? opt.data.stages[0] : opt.data.preview;
+                const finalForm = isSecond ? opt.data.stages[1] : opt.data.stages[opt.data.stages.length - 1];
+                return (
+                  <div key={opt.key} onClick={() => choosePath(opt.key)}
+                    style={{
+                      background: "rgba(255,255,255,0.05)", border: `2px solid ${opt.color}`,
+                      borderRadius: 20, padding: "18px 16px", width: 155, cursor: "pointer",
+                      transition: "all 0.2s", animation: `slideUp 0.5s ease-out ${0.3 + pi * 0.15}s both, pathGlow 3s ease-in-out infinite`,
+                      textAlign: "center",
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05) translateY(-4px)"; e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+                  >
+                    <div style={{ fontSize: "0.65rem", fontWeight: 700, color: opt.color, fontFamily: "'Fredoka', sans-serif", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>
+                      {isSecond ? opt.data.name : `Path ${opt.key}`}
+                    </div>
+                    <div style={{ fontSize: "2.2rem", marginBottom: 4 }}>{preview.emoji}</div>
+                    <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "0.95rem", fontWeight: 700, color: opt.color, marginBottom: 3 }}>
+                      {isSecond ? opt.data.name : opt.data.name}
+                    </div>
+                    <div style={{ fontSize: "0.65rem", color: "#90A4AE", marginBottom: 6, fontStyle: "italic" }}>{opt.data.desc}</div>
+                    <div style={{ fontSize: "0.55rem", color: "#607D8B", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 5 }}>
+                      Final form: <span style={{ fontWeight: 700, color: opt.color }}>{finalForm.name} {finalForm.emoji}</span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         );
@@ -2694,11 +3189,37 @@ function GameView({ screen, avatar, inventory, fedCounts, currentLocation, float
             )}
 
             {(enemiesDefeated > 0 || bossesDefeated > 0) && (
-              <div style={{ background: "rgba(239,83,80,0.1)", border: "2px solid #EF5350", borderRadius: 14, padding: "10px 14px", marginBottom: 16, display: "flex", justifyContent: "space-around" }}>
+              <div style={{ background: "rgba(239,83,80,0.1)", border: "2px solid #EF5350", borderRadius: 14, padding: "10px 14px", marginBottom: 12, display: "flex", justifyContent: "space-around" }}>
                 <div style={{ textAlign: "center" }}><div style={{ fontSize: "1.2rem" }}>⚔️</div><div style={{ fontSize: "0.65rem", fontWeight: 700, color: "#C62828" }}>{enemiesDefeated} defeated</div></div>
                 <div style={{ textAlign: "center" }}><div style={{ fontSize: "1.2rem" }}>👑</div><div style={{ fontSize: "0.65rem", fontWeight: 700, color: "#6A1B9A" }}>{bossesDefeated} bosses</div></div>
                 <div style={{ textAlign: "center" }}><div style={{ fontSize: "1.2rem" }}>🔮</div><div style={{ fontSize: "0.65rem", fontWeight: 700, color: "#7B1FA2" }}>{totalEvolutions} evolved</div></div>
                 <div style={{ textAlign: "center" }}><div style={{ fontSize: "1.2rem" }}>⭐</div><div style={{ fontSize: "0.65rem", fontWeight: 700, color: "#5D4037" }}>{totalCollected} found</div></div>
+              </div>
+            )}
+
+            {/* Rarity progress tracker */}
+            {enemiesDefeated > 0 && (
+              <div style={{ background: "rgba(255,255,255,0.5)", borderRadius: 14, padding: "8px 14px", marginBottom: 16 }}>
+                <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "0.75rem", fontWeight: 700, color: "#5D4037", marginBottom: 6 }}>Next Enemy Tier:</div>
+                <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+                  {killCounts.rare >= 3 ? (
+                    <span style={{ fontSize: "0.7rem", fontWeight: 700, color: RARITY_COLORS.ultraRare, fontFamily: "'Fredoka', sans-serif", animation: "pulse 1s ease-in-out infinite" }}>🌟 ULTRA RARE incoming! Prepare for nightmare!</span>
+                  ) : killCounts.uncommon >= 6 ? (
+                    <span style={{ fontSize: "0.7rem", fontWeight: 700, color: RARITY_COLORS.rare, fontFamily: "'Fredoka', sans-serif" }}>💎 Rare enemy next! ({killCounts.rare}/3 rares defeated)</span>
+                  ) : killCounts.common >= 10 ? (
+                    <span style={{ fontSize: "0.7rem", fontWeight: 700, color: RARITY_COLORS.uncommon, fontFamily: "'Fredoka', sans-serif" }}>✨ Uncommon enemy next! ({killCounts.uncommon}/6 uncommons defeated)</span>
+                  ) : (
+                    <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#9E9E9E", fontFamily: "'Fredoka', sans-serif" }}>Common enemies ({killCounts.common}/10 until uncommon)</span>
+                  )}
+                </div>
+                {/* Progress bar */}
+                <div style={{ width: "100%", height: 6, background: "rgba(0,0,0,0.1)", borderRadius: 3, marginTop: 6, overflow: "hidden" }}>
+                  <div style={{
+                    height: "100%", borderRadius: 3, transition: "width 0.3s",
+                    background: killCounts.rare >= 3 ? RARITY_COLORS.ultraRare : killCounts.uncommon >= 6 ? RARITY_COLORS.rare : killCounts.common >= 10 ? RARITY_COLORS.uncommon : RARITY_COLORS.common,
+                    width: `${killCounts.rare >= 3 ? 100 : killCounts.uncommon >= 6 ? (killCounts.rare / 3) * 100 : killCounts.common >= 10 ? (killCounts.uncommon / 6) * 100 : (killCounts.common / 10) * 100}%`,
+                  }} />
+                </div>
               </div>
             )}
 
