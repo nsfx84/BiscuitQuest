@@ -84,29 +84,39 @@ function useMusic() {
     ], "8n");
 
     // ═══════════════════════════════════════
-    // DAY — Bright, adventurous, upbeat, cheerful
-    // Chords: C → G → Am → F (classic bright progression)
+    // DAY — Adventurous, energetic, bouncy quest music!
+    // Chords: G → D → Em → C (heroic adventure feel)
     // ═══════════════════════════════════════
     const dayPad = mk((t, c) => pad.triggerAttackRelease(c, "2n", t), [
-      ["C4", "E4", "G4", "B4"],
       ["G3", "B3", "D4", "F#4"],
-      ["A3", "C4", "E4", "G4"],
-      ["F3", "A3", "C4", "E4"],
+      ["D3", "F#3", "A3", "D4"],
+      ["E3", "G3", "B3", "E4"],
+      ["C3", "E3", "G3", "C4"],
     ], "1n");
-    const dayMelody = mk((t, n) => melody.triggerAttackRelease(n, "4n", t), [
-      "E5", null, "G5", null, "C6", null, "B5", null,
-      "A5", null, "G5", null, "E5", null, "D5", null,
-      "C5", null, "E5", null, "A5", null, "G5", null,
-      "F5", null, "A5", null, "G5", null, null, null,
+    const dayMelody = mk((t, n) => melody.triggerAttackRelease(n, "8n", t), [
+      "D5", "D5", null, "G5", null, "A5", "B5", null,
+      "A5", null, "G5", null, "F#5", null, "D5", null,
+      "E5", "E5", null, "G5", null, "B5", null, "A5",
+      "G5", null, "F#5", "E5", null, "D5", null, null,
     ], "8n");
-    const dayBass = mk((t, n) => bass.triggerAttackRelease(n, "2n", t), [
-      "C3", "C3", "G2", "G2", "A2", "A2", "F2", "F2",
-    ], "2n");
+    const dayBass = mk((t, n) => bass.triggerAttackRelease(n, "4n", t), [
+      "G2", null, "G2", null, "D2", null, "D2", null,
+      "E2", null, "E2", null, "C2", null, "C2", null,
+    ], "4n");
     const daySparkle = mk((t, n) => sparkle.triggerAttackRelease(n, "16n", t), [
-      null, null, "E6", null, null, null, null, null,
+      null, null, "D6", null, null, "B6", null, null,
       null, null, null, null, "G6", null, null, null,
-      null, null, null, "C6", null, null, null, null,
-      null, null, null, null, null, null, "A5", null,
+      null, null, "E6", null, null, null, null, "A5",
+      null, null, null, null, null, "D6", null, null,
+    ], "8n");
+    // Percussive rhythm using a short pluck sound
+    const dayRhythm = mk((t, n) => {
+      sparkle.triggerAttackRelease(n, "32n", t, 0.15);
+    }, [
+      "G3", null, null, "G3", null, null, "G3", null,
+      null, "G3", null, null, "G3", null, null, null,
+      "G3", null, null, "G3", null, null, "G3", null,
+      null, null, "G3", null, "G3", null, null, null,
     ], "8n");
 
     // ═══════════════════════════════════════
@@ -182,16 +192,24 @@ function useMusic() {
     ], "8n");
 
     const exploreDayPad = mk((t, c) => pad.triggerAttackRelease(c, "2n", t), [
-      ["D4", "F#4", "A4", "C#5"],
-      ["G3", "B3", "D4", "F#4"],
-      ["E3", "G3", "B3", "D4"],
-      ["A3", "C#4", "E4", "G4"],
+      ["A3", "C#4", "E4", "A4"],
+      ["D3", "F#3", "A3", "D4"],
+      ["B3", "D4", "F#4", "B4"],
+      ["E3", "G#3", "B3", "E4"],
     ], "1n");
-    const exploreDayMelody = mk((t, n) => melody.triggerAttackRelease(n, "4n", t), [
-      "F#5", null, "A5", null, "D6", null, "C#6", null,
-      "B5", null, "A5", null, "F#5", null, "E5", null,
-      "D5", null, "F#5", null, "B5", null, "A5", null,
-      "G5", null, "B5", null, "A5", null, null, null,
+    const exploreDayMelody = mk((t, n) => melody.triggerAttackRelease(n, "8n", t), [
+      "A5", null, "C#6", "A5", null, "E5", "F#5", null,
+      "D5", null, "F#5", null, "A5", null, "B5", null,
+      "F#5", "F#5", null, "A5", null, "D6", null, "C#6",
+      "B5", null, "A5", "F#5", null, "E5", null, null,
+    ], "8n");
+    const exploreDayRhythm = mk((t, n) => {
+      sparkle.triggerAttackRelease(n, "32n", t, 0.12);
+    }, [
+      "A3", null, null, "A3", null, null, "A3", null,
+      null, "A3", null, null, "A3", null, null, null,
+      "A3", null, null, "A3", null, null, "A3", null,
+      null, null, "A3", null, "A3", null, null, null,
     ], "8n");
 
     const exploreDuskPad = mk((t, c) => pad.triggerAttackRelease(c, "2n", t), [
@@ -249,11 +267,11 @@ function useMusic() {
 
     partsRef.current = {
       home_dawn: [dawnPad, dawnMelody, dawnBass, dawnSparkle],
-      home_day: [dayPad, dayMelody, dayBass, daySparkle],
+      home_day: [dayPad, dayMelody, dayBass, daySparkle, dayRhythm],
       home_dusk: [duskPad, duskMelody, duskBass, duskSparkle],
       home_night: [nightPad, nightMelody, nightBass, nightSparkle],
       exploring_dawn: [exploreDawnPad, exploreDawnMelody, sharedBass("dawn")],
-      exploring_day: [exploreDayPad, exploreDayMelody, sharedBass("day")],
+      exploring_day: [exploreDayPad, exploreDayMelody, sharedBass("day"), exploreDayRhythm],
       exploring_dusk: [exploreDuskPad, exploreDuskMelody, sharedBass("dusk")],
       exploring_night: [exploreNightPad, exploreNightMelody, sharedBass("night")],
       battle: [battlePad, battleMelody, battleBass],
@@ -276,12 +294,14 @@ function useMusic() {
     const modeKey = mode === "battle" ? "battle" : `${mode}_${timePhase || "day"}`;
     if (modeKey === modeRef.current) return;
     try {
-      // Stop transport, cancel everything, restart fresh
       Tone.getTransport().stop();
       Tone.getTransport().cancel();
       Tone.getTransport().position = 0;
-      // Stop all sequences
       Object.values(partsRef.current).forEach(parts => parts.forEach(p => { try { p.stop(0); } catch(e) {} }));
+      // Adjust BPM per time/mode — day is faster and more adventurous
+      const bpmMap = { dawn: 60, day: 88, dusk: 62, night: 52 };
+      const phaseBpm = mode === "battle" ? 95 : bpmMap[timePhase] || 72;
+      Tone.getTransport().bpm.value = phaseBpm;
       modeRef.current = modeKey;
       const next = partsRef.current[modeKey];
       if (next) next.forEach(p => { try { p.start(0); } catch(e) {} });
@@ -512,44 +532,130 @@ function SkyBackground({ phase, progress }) {
 
 // ─── DATA ──────────────────────────────────────────
 
+// Evolution tree: Stage 0→1→2 are linear, then at stage 3 you CHOOSE path A or B
+// Each path then has its own stage 4 (Legendary)
+// Stage: 0=Baby, 1=Teen, 2=Adult, 3=Elder(A or B), 4=Legendary(A or B)
 const CREATURE_STAGES = {
-  water: [
-    { name: "Bubbles", emoji: "🐙", saying: "Blub blub! I need water biscuits!" },
-    { name: "Tideswirl", emoji: "🐋", saying: "The ocean flows through me!" },
-    { name: "Leviathan", emoji: "🌊", saying: "I AM the sea! 🔱" },
-  ],
-  fire: [
-    { name: "Sparky", emoji: "🐉", saying: "Roar! Feed me fire biscuits!" },
-    { name: "Blazeclaw", emoji: "🔥", saying: "My flames grow stronger!" },
-    { name: "Inferno King", emoji: "☀️", saying: "Nothing can withstand my fire! 👑" },
-  ],
-  forest: [
-    { name: "Mossy", emoji: "🦎", saying: "Hehe! I love forest biscuits!" },
-    { name: "Thornvine", emoji: "🌿", saying: "The forest speaks to me!" },
-    { name: "Ancient Treant", emoji: "🌳", saying: "I am one with nature! 🍃" },
-  ],
-  sky: [
-    { name: "Breeze", emoji: "🦅", saying: "Wheee! Sky biscuits please!" },
-    { name: "Stormwing", emoji: "🌪️", saying: "I ride the lightning!" },
-    { name: "Sky Titan", emoji: "⚡", saying: "The heavens bow to me! 🌩️" },
-  ],
-  star: [
-    { name: "Twinkle", emoji: "🦄", saying: "✨ Star biscuits make me glow!" },
-    { name: "Celestia", emoji: "🌙", saying: "The stars guide my path!" },
-    { name: "Galaxy Lord", emoji: "🌌", saying: "I hold the cosmos in my hooves! 💫" },
-  ],
-  ice: [
-    { name: "Frosty", emoji: "🐧", saying: "Brrr! Ice biscuits are yummy!" },
-    { name: "Glacius", emoji: "🧊", saying: "Winter is my kingdom!" },
-    { name: "Blizzard Beast", emoji: "❄️", saying: "An eternal winter follows me! 🏔️" },
-  ],
+  water: {
+    stages: [
+      { name: "Bubbles", emoji: "🐙", saying: "Blub blub! I need water biscuits!" },
+      { name: "Tideswirl", emoji: "🐋", saying: "The ocean flows through me!" },
+      { name: "Leviathan", emoji: "🌊", saying: "I command the tides!" },
+    ],
+    pathA: [
+      { name: "Abyssal King", emoji: "🔱", saying: "The deep obeys my will!", desc: "Deep Sea Path — raw crushing power" },
+      { name: "Poseidon", emoji: "🗡️", saying: "ALL OCEANS ARE MINE! 👑🌊", desc: "God of the Sea" },
+    ],
+    pathB: [
+      { name: "Coral Guardian", emoji: "🐚", saying: "I protect all sea life!", desc: "Reef Path — healing & defence" },
+      { name: "Ocean Spirit", emoji: "🧜", saying: "The sea sings through me! ✨🌊", desc: "Spirit of the Deep" },
+    ],
+  },
+  fire: {
+    stages: [
+      { name: "Sparky", emoji: "🐉", saying: "Roar! Feed me fire biscuits!" },
+      { name: "Blazeclaw", emoji: "🔥", saying: "My flames grow stronger!" },
+      { name: "Inferno", emoji: "☀️", saying: "Nothing can withstand my fire!" },
+    ],
+    pathA: [
+      { name: "Volcanic Titan", emoji: "🌋", saying: "I erupt with unstoppable fury!", desc: "Eruption Path — explosive attacks" },
+      { name: "Eternal Flame", emoji: "💥", saying: "I burn forever! Nothing escapes! 👑🔥", desc: "The Undying Flame" },
+    ],
+    pathB: [
+      { name: "Phoenix Sage", emoji: "🦅", saying: "From ashes I rise, again and again!", desc: "Rebirth Path — resurrect & heal" },
+      { name: "Solar Dragon", emoji: "🐲", saying: "The sun itself bows to me! ✨☀️", desc: "Dragon of the Sun" },
+    ],
+  },
+  forest: {
+    stages: [
+      { name: "Mossy", emoji: "🦎", saying: "Hehe! I love forest biscuits!" },
+      { name: "Thornvine", emoji: "🌿", saying: "The forest speaks to me!" },
+      { name: "Ancient Treant", emoji: "🌳", saying: "I am one with nature!" },
+    ],
+    pathA: [
+      { name: "Jungle Wrath", emoji: "🦖", saying: "The wild hunts as one!", desc: "Beast Path — savage speed & strength" },
+      { name: "Primal Rex", emoji: "🐊", saying: "I am the apex predator! 👑🌿", desc: "King of the Jungle" },
+    ],
+    pathB: [
+      { name: "Bloom Mother", emoji: "🌸", saying: "All things grow under my care!", desc: "Bloom Path — growth & regeneration" },
+      { name: "World Tree", emoji: "🌍", saying: "My roots hold the world together! ✨🌳", desc: "The Living World" },
+    ],
+  },
+  sky: {
+    stages: [
+      { name: "Breeze", emoji: "🦅", saying: "Wheee! Sky biscuits please!" },
+      { name: "Stormwing", emoji: "🌪️", saying: "I ride the lightning!" },
+      { name: "Sky Titan", emoji: "⚡", saying: "The heavens bow to me!" },
+    ],
+    pathA: [
+      { name: "Thunder Emperor", emoji: "🌩️", saying: "My storm devours everything!", desc: "Storm Path — lightning devastation" },
+      { name: "Tempest God", emoji: "🌀", saying: "I AM the hurricane! 👑⚡", desc: "Lord of all Storms" },
+    ],
+    pathB: [
+      { name: "Cloud Dancer", emoji: "🌈", saying: "I weave rainbows in the sky!", desc: "Wind Path — speed & evasion" },
+      { name: "Astral Phoenix", emoji: "✨", saying: "I soar between the stars! 🌟💫", desc: "Beyond the Sky" },
+    ],
+  },
+  star: {
+    stages: [
+      { name: "Twinkle", emoji: "🦄", saying: "✨ Star biscuits make me glow!" },
+      { name: "Celestia", emoji: "🌙", saying: "The stars guide my path!" },
+      { name: "Galaxy Lord", emoji: "🌌", saying: "I hold the cosmos!" },
+    ],
+    pathA: [
+      { name: "Void Walker", emoji: "🕳️", saying: "I bend space and time!", desc: "Void Path — cosmic destruction" },
+      { name: "Universe Breaker", emoji: "💫", saying: "Reality shatters at my touch! 👑🌌", desc: "Destroyer of Worlds" },
+    ],
+    pathB: [
+      { name: "Starweaver", emoji: "🌟", saying: "I create new constellations!", desc: "Light Path — creation & wishes" },
+      { name: "Cosmic Angel", emoji: "👼", saying: "I grant wishes across galaxies! ✨🌠", desc: "Guardian of Dreams" },
+    ],
+  },
+  ice: {
+    stages: [
+      { name: "Frosty", emoji: "🐧", saying: "Brrr! Ice biscuits are yummy!" },
+      { name: "Glacius", emoji: "🧊", saying: "Winter is my kingdom!" },
+      { name: "Blizzard Beast", emoji: "❄️", saying: "An eternal winter follows me!" },
+    ],
+    pathA: [
+      { name: "Frost Tyrant", emoji: "🥶", saying: "I freeze entire kingdoms!", desc: "Freeze Path — absolute zero power" },
+      { name: "Ice Apocalypse", emoji: "🏔️", saying: "A new ice age begins NOW! 👑❄️", desc: "The Endless Winter" },
+    ],
+    pathB: [
+      { name: "Crystal Sage", emoji: "💎", saying: "My ice is beautiful and eternal!", desc: "Crystal Path — shields & beauty" },
+      { name: "Diamond Empress", emoji: "👑", saying: "I am the most beautiful force! ✨💎", desc: "Jewel of the Frozen Realm" },
+    ],
+  },
 };
 
 const HEARTS_PER_STAGE = 5;
-function getCreatureStage(fc) { if (fc >= HEARTS_PER_STAGE * 2) return 2; if (fc >= HEARTS_PER_STAGE) return 1; return 0; }
-function getCreatureData(type, fc) { return { ...CREATURE_STAGES[type][getCreatureStage(fc)], stage: getCreatureStage(fc) }; }
-function getHeartsInCurrentStage(fc) { return fc - (getCreatureStage(fc) * HEARTS_PER_STAGE); }
-function isMaxEvolution(fc) { return fc >= HEARTS_PER_STAGE * 3; }
+const MAX_STAGE = 4; // 0,1,2,3,4
+
+function getCreatureStage(fc) {
+  const stage = Math.floor(fc / HEARTS_PER_STAGE);
+  return Math.min(stage, MAX_STAGE);
+}
+
+function getCreatureData(type, fc, path) {
+  const tree = CREATURE_STAGES[type];
+  const stage = getCreatureStage(fc);
+  if (stage <= 2) return { ...tree.stages[stage], stage };
+  // Stage 3 or 4 — need path choice
+  const branch = path === "B" ? tree.pathB : tree.pathA;
+  const branchIdx = stage - 3; // 0 or 1
+  return { ...branch[Math.min(branchIdx, 1)], stage };
+}
+
+function getHeartsInCurrentStage(fc) {
+  const stage = getCreatureStage(fc);
+  return fc - (stage * HEARTS_PER_STAGE);
+}
+
+function isMaxEvolution(fc) { return fc >= HEARTS_PER_STAGE * (MAX_STAGE + 1); }
+
+function needsPathChoice(fc) { return getCreatureStage(fc) === 2 && getHeartsInCurrentStage(fc) >= HEARTS_PER_STAGE - 1; }
+
+const STAGE_NAMES = ["Baby", "Teen", "Adult", "Elder", "Legendary"];
 
 const CREATURES = [
   { id: "water", type: "water", color: "#4FC3F7", bg: "#E1F5FE", needs: "water" },
@@ -817,7 +923,6 @@ const AVATARS = [
 ];
 
 const ATTACK_WORDS = ["POW!", "BAM!", "WHACK!", "BONK!", "SMACK!", "ZAP!", "WHAM!", "KAPOW!"];
-const STAGE_NAMES = ["Baby", "Teen", "Ultimate"];
 
 // ─── COMPONENTS ──────────────────────────────────────────
 
@@ -843,12 +948,27 @@ const COLOR_OPTIONS = [
 // SVG animal face drawings - each returns an SVG element
 function AnimalFace({ animalId, bodyColor, size = 42 }) {
   const c = COLOR_OPTIONS.find(c => c.id === bodyColor) || COLOR_OPTIONS[0];
-  const fill = c.bg === "transparent" ? "#ccc" : (c.id === "rainbow" ? "#F48FB1" : c.bg);
-  const dark = c.ring || "#555";
+  const isRainbow = c.id === "rainbow";
+  const fill = c.bg === "transparent" ? "#ccc" : (isRainbow ? "url(#rainbowFur)" : c.bg);
+  const dark = isRainbow ? "#C2185B" : (c.ring || "#555");
   const s = size;
   const av = AVATARS.find(a => a.id === animalId);
   const species = av?.species || "";
   const id = av?.id || "";
+
+  // Rainbow gradient defs to inject into any SVG
+  const rainbowDefs = isRainbow ? (
+    <defs>
+      <linearGradient id="rainbowFur" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#FF6B6B"/>
+        <stop offset="20%" stopColor="#FFD93D"/>
+        <stop offset="40%" stopColor="#6BCB77"/>
+        <stop offset="60%" stopColor="#4D96FF"/>
+        <stop offset="80%" stopColor="#9B59B6"/>
+        <stop offset="100%" stopColor="#FF6B6B"/>
+      </linearGradient>
+    </defs>
+  ) : null;
 
   // Determine shapes based on animal
   // Cats
@@ -884,7 +1004,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
       isBSH ? "#FF8F00" : isRagdoll ? "#42A5F5" : "#2196F3";
 
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         {/* Ears */}
         <polygon points="18,38 30,8 42,35" fill={isBSHBlueWhite ? blueWhitePatchColor : bshFill} stroke={dark} strokeWidth="2"/>
         <polygon points="58,35 70,8 82,38" fill={bshFill} stroke={dark} strokeWidth="2"/>
@@ -988,7 +1108,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
     const isDalmatian = id === "dalmatian";
     const isCorgi = id === "corgi";
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         {/* Floppy ears */}
         <ellipse cx="22" cy="42" rx="14" ry="22" fill={fill} stroke={dark} strokeWidth="2" transform="rotate(-15,22,42)"/>
         <ellipse cx="78" cy="42" rx="14" ry="22" fill={fill} stroke={dark} strokeWidth="2" transform="rotate(15,78,42)"/>
@@ -1026,7 +1146,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
   if (id.includes("fox") || id.includes("wolf")) {
     const isFox = id.includes("fox");
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         {/* Pointy ears */}
         <polygon points="15,40 28,5 38,38" fill={fill} stroke={dark} strokeWidth="2"/>
         <polygon points="62,38 72,5 85,40" fill={fill} stroke={dark} strokeWidth="2"/>
@@ -1053,7 +1173,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
   // Bunnies
   if (id.includes("bunny")) {
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         {/* Long ears */}
         <ellipse cx="35" cy="22" rx="8" ry="22" fill={fill} stroke={dark} strokeWidth="2"/>
         <ellipse cx="65" cy="22" rx="8" ry="22" fill={fill} stroke={dark} strokeWidth="2"/>
@@ -1088,7 +1208,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
     const isUnicorn = id === "unicorn" || id === "pegasus";
     if (isUnicorn) {
       return (
-        <svg width={s} height={s} viewBox="0 0 100 100">
+        <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
           <polygon points="50,2 45,30 55,30" fill="#FFD54F" stroke="#FFA000" strokeWidth="1.5"/>
           <ellipse cx="50" cy="55" rx="30" ry="28" fill={fill} stroke={dark} strokeWidth="2"/>
           {/* Mane */}
@@ -1111,7 +1231,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
       );
     }
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         {/* Horns */}
         <polygon points="20,35 15,8 30,30" fill={isIce ? "#B3E5FC" : isFire ? "#FF6F00" : "#FDD835"} stroke={dark} strokeWidth="1.5"/>
         <polygon points="70,30 85,8 80,35" fill={isIce ? "#B3E5FC" : isFire ? "#FF6F00" : "#FDD835"} stroke={dark} strokeWidth="1.5"/>
@@ -1142,7 +1262,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
     const isPenguin = id === "penguin";
     const isFlamingo = id === "flamingo";
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         <circle cx="50" cy="50" r="30" fill={fill} stroke={dark} strokeWidth="2"/>
         {isPenguin && <ellipse cx="50" cy="58" rx="18" ry="20" fill="white" opacity="0.8"/>}
         {/* Eyes */}
@@ -1177,7 +1297,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
     const isJelly = id === "jellyfish";
     if (isOctopus) {
       return (
-        <svg width={s} height={s} viewBox="0 0 100 100">
+        <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
           <ellipse cx="50" cy="40" rx="28" ry="24" fill={fill} stroke={dark} strokeWidth="2"/>
           {/* Tentacles */}
           {[20,32,44,56,68,80].map((x,i) => <path key={i} d={`M${x},60 Q${x+(i%2?5:-5)},78 ${x},90`} stroke={fill} strokeWidth="5" fill="none" strokeLinecap="round"/>)}
@@ -1192,7 +1312,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
       );
     }
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         <ellipse cx="50" cy="50" rx="34" ry="24" fill={fill} stroke={dark} strokeWidth="2"/>
         {isShark && <polygon points="50,20 44,35 56,35" fill={fill} stroke={dark} strokeWidth="1.5"/>}
         {isJelly && <>
@@ -1220,7 +1340,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
     if (isPanda) {
       const isRed = id === "red-panda";
       return (
-        <svg width={s} height={s} viewBox="0 0 100 100">
+        <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
           <circle cx="30" cy="28" r="12" fill={isRed ? "#D84315" : "#333"} stroke={dark} strokeWidth="1.5"/>
           <circle cx="70" cy="28" r="12" fill={isRed ? "#D84315" : "#333"} stroke={dark} strokeWidth="1.5"/>
           <circle cx="50" cy="52" r="30" fill={fill} stroke={dark} strokeWidth="2"/>
@@ -1240,7 +1360,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
       );
     }
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         {isLion && <circle cx="50" cy="50" r="38" fill="#D4A017" opacity="0.5"/>}
         {isLion && <circle cx="50" cy="50" r="34" fill="#B8860B" opacity="0.3"/>}
         {/* Ears */}
@@ -1280,7 +1400,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
     const isHedgehog = id === "hedgehog";
     const isMonkey = id === "monkey";
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         {isHedgehog && <>
           {[20,30,40,50,60,70,80].map((x,i) => <line key={i} x1={x} y1={18+Math.abs(i-3)*3} x2={x+(i<3?-4:i>3?4:0)} y2={6} stroke="#8D6E63" strokeWidth="2.5" strokeLinecap="round"/>)}
         </>}
@@ -1317,7 +1437,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
     const isBat = id === "bat";
     if (isFrog) {
       return (
-        <svg width={s} height={s} viewBox="0 0 100 100">
+        <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
           <circle cx="33" cy="30" r="12" fill={fill} stroke={dark} strokeWidth="2"/>
           <circle cx="67" cy="30" r="12" fill={fill} stroke={dark} strokeWidth="2"/>
           <circle cx="33" cy="29" r="6" fill="white"/>
@@ -1333,7 +1453,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
     }
     if (isButterfly) {
       return (
-        <svg width={s} height={s} viewBox="0 0 100 100">
+        <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
           <ellipse cx="28" cy="38" rx="20" ry="18" fill={fill} stroke={dark} strokeWidth="1.5" opacity="0.7"/>
           <ellipse cx="72" cy="38" rx="20" ry="18" fill={fill} stroke={dark} strokeWidth="1.5" opacity="0.7"/>
           <ellipse cx="32" cy="65" rx="14" ry="12" fill={fill} stroke={dark} strokeWidth="1.5" opacity="0.5"/>
@@ -1351,7 +1471,7 @@ function AnimalFace({ animalId, bodyColor, size = 42 }) {
       );
     }
     return (
-      <svg width={s} height={s} viewBox="0 0 100 100">
+      <svg width={s} height={s} viewBox="0 0 100 100">{rainbowDefs}
         {isBat && <>
           <path d="M10,40 Q5,25 25,30 Q20,20 40,28 L50,35 L60,28 Q80,20 75,30 Q95,25 90,40 L50,50Z" fill={fill} stroke={dark} strokeWidth="1.5"/>
         </>}
@@ -1412,6 +1532,10 @@ function AvatarSelect({ onSelect }) {
   const [animalSpecies, setAnimalSpecies] = useState("Cats");
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedColor, setSelectedColor] = useState("none");
+  const time = useTimeOfDay();
+  const tc = getTimeColors(time.phase, time.progress);
+  const isNight = time.phase === "night";
+  const isDusk = time.phase === "dusk";
 
   const animals = AVATARS.filter(a => a.category === "animal");
   const speciesList = [...new Set(animals.map(a => a.species))];
@@ -1421,33 +1545,62 @@ function AvatarSelect({ onSelect }) {
     ? AVATARS.filter(a => a.category === "character")
     : animals.filter(a => a.species === animalSpecies);
 
+  const titleColor = isNight ? "#E8EAF6" : isDusk ? "#FFF8E1" : "#4E342E";
+  const subColor = isNight ? "#B0BEC5" : isDusk ? "#FFCC80" : "#6D4C41";
+  const cardBg = isNight ? "rgba(30,30,60,0.6)" : isDusk ? "rgba(80,40,40,0.3)" : "rgba(255,255,255,0.7)";
+  const cardText = isNight ? "#B0BEC5" : isDusk ? "#FFCC80" : "#6D4C41";
+  const inputBorder = isNight ? "#5C6BC0" : isDusk ? "#FF8A65" : "#FFB74D";
+  const inputBg = isNight ? "rgba(30,30,60,0.7)" : isDusk ? "rgba(80,40,40,0.5)" : "rgba(255,255,255,0.85)";
+
+  const bgScene = (
+    <>
+      <div style={{ position: "fixed", inset: 0, background: tc.sky, zIndex: 0, transition: "background 10s ease" }} />
+      <SkyBackground phase={time.phase} progress={time.progress} />
+      {/* Floating biscuit decorations */}
+      <style>{`
+        @keyframes floatBiscuit { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } 100% { transform: translateY(0) rotate(0deg); } }
+      `}</style>
+      {["🍪","🍪","🍪","🍪","🍪","🍪"].map((b, i) => (
+        <div key={i} style={{
+          position: "fixed", fontSize: `${1.2 + (i % 3) * 0.4}rem`,
+          left: `${8 + (i * 16) % 85}%`, top: `${10 + (i * 23) % 75}%`,
+          opacity: isNight ? 0.15 : 0.2,
+          animation: `floatBiscuit ${3 + i * 0.5}s ease-in-out infinite`,
+          animationDelay: `${i * 0.7}s`,
+          pointerEvents: "none", zIndex: 0,
+        }}>{b}</div>
+      ))}
+    </>
+  );
+
   // Step 2: colour picker
   if (selectedAvatar) {
     return (
-      <div style={{ minHeight: "100vh", background: "linear-gradient(180deg, #FFF8E1 0%, #FFECB3 50%, #FFE082 100%)", fontFamily: "'Quicksand', sans-serif", display: "flex", flexDirection: "column", alignItems: "center", padding: 20, overflowY: "auto" }}>
+      <div style={{ minHeight: "100vh", fontFamily: "'Quicksand', sans-serif", display: "flex", flexDirection: "column", alignItems: "center", padding: 20, overflowY: "auto", position: "relative" }}>
+        {bgScene}
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <style>{`@keyframes floatIn { from { transform: translateY(30px) scale(0.8); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } } @keyframes bobble { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }`}</style>
 
-        <div style={{ animation: "floatIn 0.5s ease-out", textAlign: "center", marginTop: 10, marginBottom: 8 }}>
-          <h2 style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.5rem", fontWeight: 700, color: "#4E342E", margin: "0 0 4px" }}>Choose your colour!</h2>
-          <p style={{ color: "#6D4C41", fontWeight: 600, fontSize: "0.85rem", margin: 0 }}>Pick a colour for {selectedAvatar.name}</p>
+        <div style={{ animation: "floatIn 0.5s ease-out", textAlign: "center", marginTop: 10, marginBottom: 8, position: "relative", zIndex: 2 }}>
+          <h2 style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.5rem", fontWeight: 700, color: titleColor, margin: "0 0 4px" }}>Choose your colour!</h2>
+          <p style={{ color: subColor, fontWeight: 600, fontSize: "0.85rem", margin: 0 }}>Pick a colour for {selectedAvatar.name}</p>
         </div>
 
         {/* Preview */}
-        <div style={{ animation: "floatIn 0.5s ease-out 0.1s both, bobble 2s ease-in-out infinite", marginBottom: 16 }}>
+        <div style={{ animation: "floatIn 0.5s ease-out 0.1s both, bobble 2s ease-in-out infinite", marginBottom: 16, position: "relative", zIndex: 2 }}>
           <AvatarDisplay emoji={selectedAvatar.emoji} bodyColor={selectedColor} size={90} animalId={selectedAvatar.id} />
         </div>
-        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.1rem", fontWeight: 700, color: selectedAvatar.color, marginBottom: 4 }}>
+        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.1rem", fontWeight: 700, color: selectedAvatar.color, marginBottom: 4, position: "relative", zIndex: 2 }}>
           {selectedColor !== "none" ? `${COLOR_OPTIONS.find(c => c.id === selectedColor)?.name} ` : ""}{selectedAvatar.name}
         </div>
-        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "0.85rem", fontWeight: 600, color: "#8D6E63", marginBottom: 16 }}>
+        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "0.85rem", fontWeight: 600, color: subColor, marginBottom: 16, position: "relative", zIndex: 2 }}>
           {playerName || "Adventurer"}
         </div>
 
         {/* Colour grid */}
         <div style={{
           display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10,
-          maxWidth: 360, width: "100%", animation: "floatIn 0.5s ease-out 0.15s both",
+          maxWidth: 360, width: "100%", animation: "floatIn 0.5s ease-out 0.15s both", position: "relative", zIndex: 2,
         }}>
           {COLOR_OPTIONS.map((c, i) => {
             const isSelected = selectedColor === c.id;
@@ -1457,7 +1610,7 @@ function AvatarSelect({ onSelect }) {
                 style={{
                   display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
                   padding: "10px 4px 8px", borderRadius: 14, cursor: "pointer",
-                  background: isSelected ? `${c.ring}22` : "rgba(255,255,255,0.6)",
+                  background: isSelected ? `${c.ring}22` : cardBg,
                   border: `3px solid ${isSelected ? c.ring : "transparent"}`,
                   transition: "all 0.2s",
                   transform: isSelected ? "scale(1.08)" : "scale(1)",
@@ -1479,7 +1632,7 @@ function AvatarSelect({ onSelect }) {
         </div>
 
         {/* Buttons */}
-        <div style={{ display: "flex", gap: 10, marginTop: 20, animation: "floatIn 0.5s ease-out 0.3s both" }}>
+        <div style={{ display: "flex", gap: 10, marginTop: 20, animation: "floatIn 0.5s ease-out 0.3s both", position: "relative", zIndex: 2 }}>
           <button onClick={() => setSelectedAvatar(null)} style={{
             fontFamily: "'Fredoka', sans-serif", fontSize: "0.9rem", fontWeight: 700,
             padding: "10px 20px", borderRadius: 14, cursor: "pointer",
@@ -1499,23 +1652,24 @@ function AvatarSelect({ onSelect }) {
 
   // Step 1: pick avatar
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(180deg, #FFF8E1 0%, #FFECB3 50%, #FFE082 100%)", fontFamily: "'Quicksand', sans-serif", display: "flex", flexDirection: "column", alignItems: "center", padding: 20, overflowY: "auto" }}>
+    <div style={{ minHeight: "100vh", fontFamily: "'Quicksand', sans-serif", display: "flex", flexDirection: "column", alignItems: "center", padding: 20, overflowY: "auto", position: "relative" }}>
+      {bgScene}
       <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <style>{`@keyframes floatIn { from { transform: translateY(30px) scale(0.8); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } } @keyframes bobble { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }`}</style>
 
-      <div style={{ animation: "floatIn 0.6s ease-out", textAlign: "center", marginBottom: 6, marginTop: 10 }}>
+      <div style={{ animation: "floatIn 0.6s ease-out", textAlign: "center", marginBottom: 6, marginTop: 10, position: "relative", zIndex: 2 }}>
         <div style={{ fontSize: "3rem", animation: "bobble 2s ease-in-out infinite" }}>🍪</div>
-        <h1 style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "2rem", fontWeight: 700, color: "#4E342E", margin: "6px 0 2px" }}>Biscuit Quest</h1>
-        <p style={{ color: "#6D4C41", fontWeight: 600, fontSize: "0.95rem", margin: 0 }}>Choose your adventurer!</p>
+        <h1 style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "2rem", fontWeight: 700, color: titleColor, margin: "6px 0 2px", textShadow: isNight ? "0 0 20px rgba(200,200,255,0.3)" : "none" }}>Biscuit Quest</h1>
+        <p style={{ color: subColor, fontWeight: 600, fontSize: "0.95rem", margin: 0 }}>Choose your adventurer!</p>
       </div>
 
-      <div style={{ margin: "12px 0", animation: "floatIn 0.6s ease-out 0.1s both" }}>
+      <div style={{ margin: "12px 0", animation: "floatIn 0.6s ease-out 0.1s both", position: "relative", zIndex: 2 }}>
         <input type="text" placeholder="Type your name..." value={playerName} onChange={e => setPlayerName(e.target.value)} maxLength={16}
-          style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.1rem", padding: "10px 20px", borderRadius: 14, border: "3px solid #FFB74D", background: "rgba(255,255,255,0.85)", color: "#4E342E", textAlign: "center", outline: "none", width: 220, fontWeight: 600 }} />
+          style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.1rem", padding: "10px 20px", borderRadius: 14, border: `3px solid ${inputBorder}`, background: inputBg, color: titleColor, textAlign: "center", outline: "none", width: 220, fontWeight: 600 }} />
       </div>
 
       {/* Tabs */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 14, animation: "floatIn 0.6s ease-out 0.15s both" }}>
+      <div style={{ display: "flex", gap: 8, marginBottom: 14, animation: "floatIn 0.6s ease-out 0.15s both", position: "relative", zIndex: 2 }}>
         {[
           { id: "character", label: "🧑 Characters", color: "#7E57C2" },
           { id: "animal", label: "🐾 Animals", color: "#FF9800" },
@@ -1524,8 +1678,8 @@ function AvatarSelect({ onSelect }) {
             fontFamily: "'Fredoka', sans-serif", fontSize: "0.9rem", fontWeight: 700,
             padding: "8px 20px", borderRadius: 14, cursor: "pointer",
             border: tab === t.id ? `3px solid ${t.color}` : "3px solid transparent",
-            background: tab === t.id ? `${t.color}22` : "rgba(255,255,255,0.6)",
-            color: tab === t.id ? t.color : "#8D6E63", transition: "all 0.2s",
+            background: tab === t.id ? `${t.color}22` : cardBg,
+            color: tab === t.id ? t.color : cardText, transition: "all 0.2s",
             transform: tab === t.id ? "scale(1.05)" : "scale(1)",
           }}>{t.label}</button>
         ))}
@@ -1535,15 +1689,15 @@ function AvatarSelect({ onSelect }) {
       {tab === "animal" && (
         <div style={{
           display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12, justifyContent: "center",
-          maxWidth: 440, animation: "floatIn 0.4s ease-out 0.18s both",
+          maxWidth: 440, animation: "floatIn 0.4s ease-out 0.18s both", position: "relative", zIndex: 2,
         }}>
           {speciesList.map(sp => (
             <button key={sp} onClick={() => setAnimalSpecies(sp)} style={{
               fontFamily: "'Fredoka', sans-serif", fontSize: "0.72rem", fontWeight: 700,
               padding: "5px 12px", borderRadius: 10, cursor: "pointer",
               border: animalSpecies === sp ? "2px solid #FF9800" : "2px solid transparent",
-              background: animalSpecies === sp ? "#FFF3E0" : "rgba(255,255,255,0.5)",
-              color: animalSpecies === sp ? "#E65100" : "#8D6E63",
+              background: animalSpecies === sp ? (isNight ? "rgba(255,152,0,0.2)" : "#FFF3E0") : cardBg,
+              color: animalSpecies === sp ? "#FF9800" : cardText,
               transition: "all 0.2s",
             }}>{speciesEmojis[sp] || "🐾"} {sp}</button>
           ))}
@@ -1551,12 +1705,12 @@ function AvatarSelect({ onSelect }) {
       )}
 
       {/* Avatar grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, maxWidth: 440, width: "100%", animation: "floatIn 0.5s ease-out 0.2s both" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, maxWidth: 440, width: "100%", animation: "floatIn 0.5s ease-out 0.2s both", position: "relative", zIndex: 2 }}>
         {filtered.map((av, i) => (
           <div key={av.id} onClick={() => setSelectedAvatar(av)}
             onMouseEnter={() => setHoveredId(av.id)} onMouseLeave={() => setHoveredId(null)}
             style={{
-              background: hoveredId === av.id ? `linear-gradient(135deg, ${av.color}22, ${av.color}44)` : "rgba(255,255,255,0.7)",
+              background: hoveredId === av.id ? `linear-gradient(135deg, ${av.color}22, ${av.color}44)` : cardBg,
               border: `3px solid ${hoveredId === av.id ? av.color : "transparent"}`, borderRadius: 16,
               padding: "12px 4px 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
               cursor: "pointer", transition: "all 0.2s",
@@ -1567,12 +1721,12 @@ function AvatarSelect({ onSelect }) {
               ? <AvatarDisplay emoji={av.emoji} bodyColor="none" size={48} animalId={av.id} />
               : <span style={{ fontSize: "2rem" }}>{av.emoji}</span>
             }
-            <span style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "0.65rem", fontWeight: 600, color: hoveredId === av.id ? av.color : "#6D4C41" }}>{av.name}</span>
+            <span style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "0.65rem", fontWeight: 600, color: hoveredId === av.id ? av.color : cardText }}>{av.name}</span>
           </div>
         ))}
       </div>
 
-      <p style={{ color: "#A1887F", fontSize: "0.78rem", marginTop: 16, fontWeight: 600 }}>
+      <p style={{ color: subColor, fontSize: "0.78rem", marginTop: 16, fontWeight: 600, position: "relative", zIndex: 2 }}>
         {tab === "character" ? "Pick a character, then choose a colour!" : `Browsing ${animalSpecies} — pick a breed!`}
       </p>
     </div>
@@ -1825,8 +1979,8 @@ function BattleScreen({ enemy, avatar, onWin, onLose, isBoss }) {
   );
 }
 
-function CreatureCard({ creature, fedCount, onFeed, inventory, isSick, potions, onHeal }) {
-  const data = getCreatureData(creature.type, fedCount);
+function CreatureCard({ creature, fedCount, onFeed, inventory, isSick, potions, onHeal, path }) {
+  const data = getCreatureData(creature.type, fedCount, path);
   const stage = getCreatureStage(fedCount);
   const heartsInStage = getHeartsInCurrentStage(fedCount);
   const maxed = isMaxEvolution(fedCount);
@@ -1845,7 +1999,7 @@ function CreatureCard({ creature, fedCount, onFeed, inventory, isSick, potions, 
       display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
       position: "relative", overflow: "hidden", transition: "all 0.3s",
       cursor: canFeed || canHeal ? "pointer" : "default",
-      boxShadow: isSick ? "0 0 20px rgba(118,255,3,0.4)" : stage === 2 ? `0 0 25px #FFD70066` : "0 2px 8px rgba(0,0,0,0.08)",
+      boxShadow: isSick ? "0 0 20px rgba(118,255,3,0.4)" : stage >= 4 ? `0 0 30px ${creature.color}88, 0 0 60px ${creature.color}44` : stage >= 3 ? `0 0 25px #FFD70066` : stage >= 2 ? `0 0 15px ${creature.color}44` : "0 2px 8px rgba(0,0,0,0.08)",
       filter: isSick ? "saturate(0.5)" : "none",
     }}
       onClick={() => {
@@ -1859,13 +2013,13 @@ function CreatureCard({ creature, fedCount, onFeed, inventory, isSick, potions, 
       {isSick ? (
         <div style={{ position: "absolute", top: 6, right: 8, fontSize: "0.6rem", background: "#76FF03", color: "#1B5E20", borderRadius: 8, padding: "2px 6px", fontWeight: 800, fontFamily: "'Fredoka', sans-serif", animation: "pulse 1s ease-in-out infinite" }}>☠️ SICK</div>
       ) : (
-        <div style={{ position: "absolute", top: 6, right: 8, fontSize: "0.6rem", background: stage === 2 ? "linear-gradient(135deg, #FFD700, #FFA000)" : stage === 1 ? creature.color : "#BDBDBD", color: "white", borderRadius: 8, padding: "2px 6px", fontWeight: 800, fontFamily: "'Fredoka', sans-serif" }}>{maxed ? "MAX ✨" : STAGE_NAMES[stage]}</div>
+        <div style={{ position: "absolute", top: 6, right: 8, fontSize: "0.6rem", background: stage >= 4 ? "linear-gradient(135deg, #FF6F00, #FFD54F, #FF6F00)" : stage >= 3 ? "linear-gradient(135deg, #FFD700, #FFA000)" : stage === 2 ? creature.color : stage === 1 ? creature.color : "#BDBDBD", color: "white", borderRadius: 8, padding: "2px 6px", fontWeight: 800, fontFamily: "'Fredoka', sans-serif" }}>{maxed ? "MAX ✨" : STAGE_NAMES[stage]}</div>
       )}
 
       <div style={{
-        fontSize: stage === 2 ? "3.3rem" : "3rem",
+        fontSize: stage >= 4 ? "3.5rem" : stage >= 2 ? "3.3rem" : "3rem",
         animation: isSick ? "sickWobble 2s ease-in-out infinite" : maxed ? "wiggle 0.5s ease-in-out infinite" : fedCount > 0 ? "bobble 3s ease-in-out infinite" : "none",
-        filter: isSick ? "hue-rotate(80deg) brightness(0.7)" : stage === 2 ? `drop-shadow(0 0 12px ${creature.color})` : "none",
+        filter: isSick ? "hue-rotate(80deg) brightness(0.7)" : stage >= 4 ? `drop-shadow(0 0 16px ${creature.color}) drop-shadow(0 0 30px ${creature.color}66)` : stage >= 2 ? `drop-shadow(0 0 12px ${creature.color})` : "none",
       }}>{data.emoji}</div>
 
       <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "1.05rem", color: isSick ? "#4CAF50" : creature.color }}>
@@ -1881,7 +2035,7 @@ function CreatureCard({ creature, fedCount, onFeed, inventory, isSick, potions, 
       )}
 
       <div style={{ fontSize: "0.65rem", color: isSick ? "#2E7D32" : "#666", fontStyle: "italic", textAlign: "center", fontFamily: "'Quicksand', sans-serif", lineHeight: 1.3 }}>
-        {isSick ? "I feel terrible... I need a potion... 🤢" : maxed ? "Fully evolved! 🏆" : heartsInStage >= 4 ? "Almost evolving! 🔮" : data.saying}
+        {isSick ? "I feel terrible... I need a potion... 🤢" : maxed ? "Fully evolved! I'm LEGENDARY! 🏆" : stage === 2 && heartsInStage >= 3 ? "A split path awaits... 🔮" : heartsInStage >= 4 ? "Almost evolving! 🔮" : data.saying}
       </div>
 
       {canHeal && (
@@ -1900,30 +2054,77 @@ function CreatureCard({ creature, fedCount, onFeed, inventory, isSick, potions, 
 
 // ─── MAIN GAME ──────────────────────────────────────────
 
+// ─── SAVE/LOAD SYSTEM ──────────────────────────────
+
+const SAVE_KEY = "biscuit-quest-save";
+
+function loadSave() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (e) { return null; }
+}
+
+function writeSave(data) {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch (e) {}
+}
+
+function clearSave() {
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
+}
+
 export default function BiscuitQuest() {
-  const [screen, setScreen] = useState("avatar");
-  const [avatar, setAvatar] = useState(null);
-  const [inventory, setInventory] = useState({});
-  const [fedCounts, setFedCounts] = useState({});
+  const save = useRef(loadSave()).current;
+  const hasSave = !!save;
+
+  const [screen, setScreen] = useState(save ? "home" : "avatar");
+  const [avatar, setAvatar] = useState(save?.avatar || null);
+  const [inventory, setInventory] = useState(save?.inventory || {});
+  const [fedCounts, setFedCounts] = useState(save?.fedCounts || {});
   const [currentLocation, setCurrentLocation] = useState(null);
   const [floatingBiscuits, setFloatingBiscuits] = useState([]);
   const [collectAnimation, setCollectAnimation] = useState(null);
-  const [totalCollected, setTotalCollected] = useState(0);
-  const [message, setMessage] = useState("");
+  const [totalCollected, setTotalCollected] = useState(save?.totalCollected || 0);
+  const [message, setMessage] = useState(hasSave ? "Welcome back! 🍪" : "");
   const [enemies, setEnemies] = useState([]);
   const [activeBattle, setActiveBattle] = useState(null);
   const [isBossBattle, setIsBossBattle] = useState(false);
-  const [enemiesDefeated, setEnemiesDefeated] = useState(0);
-  const [bossesDefeated, setBossesDefeated] = useState(0);
+  const [enemiesDefeated, setEnemiesDefeated] = useState(save?.enemiesDefeated || 0);
+  const [bossesDefeated, setBossesDefeated] = useState(save?.bossesDefeated || 0);
   const [stolenBiscuits, setStolenBiscuits] = useState(0);
   const [evolution, setEvolution] = useState(null);
-  const [sickCreatures, setSickCreatures] = useState({});
-  const [potions, setPotions] = useState(0);
+  const [sickCreatures, setSickCreatures] = useState(save?.sickCreatures || {});
+  const [potions, setPotions] = useState(save?.potions || 0);
+  const [creaturePaths, setCreaturePaths] = useState(save?.creaturePaths || {});
+  const [pathChoice, setPathChoice] = useState(null);
   const [sickScreen, setSickScreen] = useState(null);
   const [corruptedInWorld, setCorruptedInWorld] = useState([]);
   const timerRef = useRef(null);
   const enemySpawnRef = useRef(null);
   const music = useMusic();
+
+  // Auto-save whenever important state changes
+  useEffect(() => {
+    if (!avatar) return; // don't save if no avatar chosen yet
+    writeSave({
+      avatar, inventory, fedCounts, totalCollected,
+      enemiesDefeated, bossesDefeated, sickCreatures,
+      potions, creaturePaths,
+    });
+  }, [avatar, inventory, fedCounts, totalCollected, enemiesDefeated, bossesDefeated, sickCreatures, potions, creaturePaths]);
+
+  // Start music if returning from save
+  useEffect(() => {
+    if (hasSave) music.init();
+  }, []);
+
+  const resetGame = () => {
+    if (confirm("Are you sure? This will delete ALL your progress!")) {
+      clearSave();
+      window.location.reload();
+    }
+  };
 
   // Music mode switching with time-of-day
   const timeForMusic = useTimeOfDay();
@@ -2057,33 +2258,62 @@ export default function BiscuitQuest() {
     const hasCorrupted = (inventory[`corrupted_${creature.needs}`] || 0) > 0;
 
     if (hasClean) {
-      // Feed clean biscuit — normal
       const currentFed = fedCounts[creature.id] || 0;
       const oldStage = getCreatureStage(currentFed);
       const newFed = currentFed + 1;
       const newStage = getCreatureStage(newFed);
+      const path = creaturePaths[creature.type];
+
+      // Check if this feed would trigger the split (entering stage 3 without a path chosen)
+      if (newStage >= 3 && !path) {
+        // Don't consume the biscuit yet — show the choice screen
+        setPathChoice({ creature, currentFed: newFed });
+        return;
+      }
+
       setInventory(prev => ({ ...prev, [creature.needs]: prev[creature.needs] - 1 }));
       setFedCounts(prev => ({ ...prev, [creature.id]: newFed }));
+
       if (newStage > oldStage) {
-        setEvolution({ creature, oldStage: CREATURE_STAGES[creature.type][oldStage], newStage: CREATURE_STAGES[creature.type][newStage], color: creature.color });
+        const oldData = getCreatureData(creature.type, currentFed, path);
+        const newData = getCreatureData(creature.type, newFed, path);
+        setEvolution({ creature, oldStage: oldData, newStage: newData, color: creature.color });
       } else {
-        setMessage(`${getCreatureData(creature.type, newFed).name} loved that biscuit! 😋`);
+        const data = getCreatureData(creature.type, newFed, path);
+        setMessage(`${data.name} loved that biscuit! 😋`);
         setTimeout(() => setMessage(""), 2000);
       }
     } else if (hasCorrupted) {
-      // Fed corrupted biscuit — creature gets SICK!
       setInventory(prev => ({ ...prev, [`corrupted_${creature.needs}`]: prev[`corrupted_${creature.needs}`] - 1 }));
       setSickCreatures(prev => ({ ...prev, [creature.id]: true }));
-      const data = getCreatureData(creature.type, fedCounts[creature.id] || 0);
+      const path = creaturePaths[creature.type];
+      const data = getCreatureData(creature.type, fedCounts[creature.id] || 0, path);
       setSickScreen({ creature, creatureData: data });
     }
+  };
+
+  const choosePath = (chosenPath) => {
+    if (!pathChoice) return;
+    const { creature, currentFed } = pathChoice;
+    setCreaturePaths(prev => ({ ...prev, [creature.type]: chosenPath }));
+    // Now consume the biscuit and do the evolution
+    setInventory(prev => ({ ...prev, [creature.needs]: prev[creature.needs] - 1 }));
+    const oldStage = getCreatureStage(currentFed - 1);
+    setFedCounts(prev => ({ ...prev, [creature.id]: currentFed }));
+    const newStage = getCreatureStage(currentFed);
+    if (newStage > oldStage) {
+      const oldData = getCreatureData(creature.type, currentFed - 1, chosenPath);
+      const newData = getCreatureData(creature.type, currentFed, chosenPath);
+      setEvolution({ creature, oldStage: oldData, newStage: newData, color: creature.color });
+    }
+    setPathChoice(null);
   };
 
   const healCreature = (creature) => {
     if (potions > 0 && sickCreatures[creature.id]) {
       setPotions(prev => prev - 1);
       setSickCreatures(prev => ({ ...prev, [creature.id]: false }));
-      const data = getCreatureData(creature.type, fedCounts[creature.id] || 0);
+      const data = getCreatureData(creature.type, fedCounts[creature.id] || 0, creaturePaths[creature.type]);
       setMessage(`🧪 ${data.name} was healed! They feel much better! 💖`);
       setTimeout(() => setMessage(""), 3000);
     }
@@ -2115,7 +2345,7 @@ export default function BiscuitQuest() {
     potions, sickScreen, allMaxed, inventoryCount, totalEvolutions, sickCount,
     travelTo, collectBiscuit, startBattle, onBattleWin: () => onBattleWin(activeBattle),
     onBattleLose: () => onBattleLose(activeBattle), feedCreature, healCreature, summonBoss, goHome, setMessage,
-    music }} />;
+    music, creaturePaths, pathChoice, choosePath, resetGame }} />;
 }
 
 function LocationScene({ locationId, timePhase }) {
@@ -2334,7 +2564,7 @@ function GameView({ screen, avatar, inventory, fedCounts, currentLocation, float
   enemiesDefeated, bossesDefeated, evolution, setEvolution, sickCreatures,
   potions, sickScreen, allMaxed, inventoryCount, totalEvolutions, sickCount,
   travelTo, collectBiscuit, startBattle, onBattleWin, onBattleLose,
-  feedCreature, healCreature, summonBoss, goHome, setMessage, music }) {
+  feedCreature, healCreature, summonBoss, goHome, setMessage, music, creaturePaths, pathChoice, choosePath, resetGame }) {
 
   const time = useTimeOfDay();
   const tc = getTimeColors(time.phase, time.progress);
@@ -2360,6 +2590,42 @@ function GameView({ screen, avatar, inventory, fedCounts, currentLocation, float
       `}</style>
 
       {/* Overlays */}
+      {pathChoice && (() => {
+        const tree = CREATURE_STAGES[pathChoice.creature.type];
+        const currentData = getCreatureData(pathChoice.creature.type, pathChoice.currentFed - 1);
+        return (
+          <div style={{ position: "fixed", inset: 0, zIndex: 300, background: "linear-gradient(180deg, #1a1a2e 0%, #0f3460 50%, #1a1a2e 100%)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Quicksand', sans-serif", padding: 20 }}>
+            <style>{`@keyframes pathGlow { 0%, 100% { box-shadow: 0 0 15px rgba(255,255,255,0.1); } 50% { box-shadow: 0 0 30px rgba(255,255,255,0.3); } } @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`}</style>
+            <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1.3rem", fontWeight: 700, color: "#FFD54F", marginBottom: 8, animation: "slideUp 0.5s ease-out", textAlign: "center" }}>🔮 EVOLUTION SPLIT! 🔮</div>
+            <div style={{ fontSize: "0.9rem", color: "#B0BEC5", marginBottom: 4, textAlign: "center", animation: "slideUp 0.5s ease-out 0.1s both" }}>{currentData.name} can evolve two different ways!</div>
+            <div style={{ fontSize: "3rem", marginBottom: 16, animation: "slideUp 0.5s ease-out 0.15s both" }}>{currentData.emoji}</div>
+            <div style={{ fontSize: "0.8rem", color: "#78909C", marginBottom: 20, textAlign: "center", animation: "slideUp 0.5s ease-out 0.2s both" }}>Choose wisely — this cannot be undone!</div>
+
+            <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+              {[{ key: "A", data: tree.pathA }, { key: "B", data: tree.pathB }].map((p, pi) => (
+                <div key={p.key} onClick={() => choosePath(p.key)}
+                  style={{
+                    background: "rgba(255,255,255,0.05)", border: `2px solid ${pi === 0 ? "#FF6B6B" : "#4FC3F7"}`,
+                    borderRadius: 20, padding: "20px 18px", width: 160, cursor: "pointer",
+                    transition: "all 0.2s", animation: `slideUp 0.5s ease-out ${0.3 + pi * 0.15}s both, pathGlow 3s ease-in-out infinite`,
+                    textAlign: "center",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05) translateY(-4px)"; e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+                >
+                  <div style={{ fontSize: "0.7rem", fontWeight: 700, color: pi === 0 ? "#FF6B6B" : "#4FC3F7", fontFamily: "'Fredoka', sans-serif", marginBottom: 8 }}>PATH {p.key}</div>
+                  <div style={{ fontSize: "2.5rem", marginBottom: 6 }}>{p.data[0].emoji}</div>
+                  <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "1rem", fontWeight: 700, color: pi === 0 ? "#FF8A80" : "#80D8FF", marginBottom: 4 }}>{p.data[0].name}</div>
+                  <div style={{ fontSize: "0.7rem", color: "#90A4AE", marginBottom: 8, fontStyle: "italic" }}>{p.data[0].desc}</div>
+                  <div style={{ fontSize: "0.6rem", color: "#607D8B", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 6 }}>
+                    Evolves into: <span style={{ fontWeight: 700, color: pi === 0 ? "#FF6B6B" : "#4FC3F7" }}>{p.data[1].name} {p.data[1].emoji}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
       {evolution && <EvolutionScreen creature={evolution.creature} oldStage={evolution.oldStage} newStage={evolution.newStage} color={evolution.color} onDone={() => { setEvolution(null); setMessage(`${evolution.newStage.name} has arrived! 🎉`); setTimeout(() => setMessage(""), 3000); }} />}
       {sickScreen && <SickScreen creature={sickScreen.creature} creatureData={sickScreen.creatureData} onSummonBoss={summonBoss} />}
       {activeBattle && <BattleScreen enemy={activeBattle} avatar={avatar} onWin={onBattleWin} onLose={onBattleLose} isBoss={isBossBattle} />}
@@ -2381,6 +2647,7 @@ function GameView({ screen, avatar, inventory, fedCounts, currentLocation, float
           {potions > 0 && <div style={{ background: "rgba(156,39,176,0.3)", borderRadius: 10, padding: "3px 8px", fontSize: "0.7rem", fontWeight: 700, color: time.phase === "night" ? "#CE93D8" : "#7B1FA2" }}>🧪{potions}</div>}
           {sickCount > 0 && <div style={{ background: "rgba(118,255,3,0.25)", borderRadius: 10, padding: "3px 8px", fontSize: "0.7rem", fontWeight: 700, color: "#76FF03", animation: "pulse 1s ease-in-out infinite" }}>☠️{sickCount}</div>}
           <div onClick={music?.toggleMute} style={{ background: "rgba(255,255,255,0.25)", borderRadius: 10, padding: "3px 8px", fontSize: "0.7rem", fontWeight: 700, color: tc.headerText, cursor: "pointer" }}>{music?.muted ? "🔇" : "🔊"}</div>
+          <div onClick={resetGame} style={{ background: "rgba(255,255,255,0.15)", borderRadius: 10, padding: "3px 8px", fontSize: "0.7rem", fontWeight: 700, color: tc.headerText, cursor: "pointer", opacity: 0.6 }}>🔄</div>
         </div>
       </div>
 
@@ -2443,7 +2710,7 @@ function GameView({ screen, avatar, inventory, fedCounts, currentLocation, float
               {CREATURES.map(creature => (
                 <CreatureCard key={creature.id} creature={creature} fedCount={fedCounts[creature.id] || 0}
                   onFeed={feedCreature} inventory={inventory} isSick={!!sickCreatures[creature.id]}
-                  potions={potions} onHeal={healCreature} />
+                  potions={potions} onHeal={healCreature} path={creaturePaths[creature.type]} />
               ))}
             </div>
 
